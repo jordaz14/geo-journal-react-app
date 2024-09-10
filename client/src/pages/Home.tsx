@@ -12,7 +12,7 @@ function Home() {
         <img
           src={bg}
           alt="background image "
-          className="absolute opacity-15 w-full h-full"
+          className="absolute opacity-20 w-full h-full"
         />
         <h1 className="text-8xl font-bold z-10">near here</h1>
         <p className="text-3xl font-karla z-10">see around, be around</p>
