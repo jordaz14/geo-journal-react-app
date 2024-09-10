@@ -1,6 +1,36 @@
 import NavBar from "../components/NavBar";
+import MainContainer from "../components/MainContainer";
+import { QRCodeSVG } from "qrcode.react";
+import { useEffect } from "react";
 
 function CreateLocation() {
+  useEffect(() => {
+    const url: string = "http://localhost:5000/create-location";
+    const uniqueId = crypto.randomUUID();
+    console.log(uniqueId);
+    async function postData(url: string, data: any) {
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const result = await response.json();
+        console.log("here's you result...");
+        console.log(result.message);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    postData(url, { message: "Hello World" });
+  }, []);
+
   return (
     <>
       <NavBar></NavBar>
