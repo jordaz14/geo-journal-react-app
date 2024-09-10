@@ -7,7 +7,11 @@ export default {
         karla: ["Karla", "sans-serif"],
         lato: ["Lato", "sans-serif"],
       },
-      colors: { "primary-red": "#FF6163", "secondary-red": "FFF2F2" },
+      colors: {
+        "primary-red": "#FF6163",
+        "secondary-red": "#FFF2F2",
+        "primary-gray": "#737373",
+      },
     },
   },
   plugins: [],
