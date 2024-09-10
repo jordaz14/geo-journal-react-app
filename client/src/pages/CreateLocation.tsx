@@ -7,9 +7,10 @@ function CreateLocation() {
   const [qrValue, setQRValue] = useState("https://example.org/");
 
   useEffect(() => {
-    const url: string = "http://localhost:5000/create-location";
-    const uniqueId = crypto.randomUUID();
-    console.log(uniqueId);
+    const createUrl: string = "http://localhost:5000/create-location";
+
+    const locationId = crypto.randomUUID();
+
     async function postData(url: string, data: any) {
       try {
         const response = await fetch(url, {
@@ -23,8 +24,8 @@ function CreateLocation() {
         }
 
         const result = await response.json();
-        console.log("here's you result...");
-        console.log(result.message);
+
+        return result;
       } catch (error) {
         console.log(error);
       }
