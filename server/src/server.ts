@@ -23,15 +23,15 @@ app.post("/create-location", async (req: Request, res: Response) => {
 
   console.log(locationId);
 
-    const { error } = await supabase
-      .from("location_ids")
+  const { error } = await supabase
+    .from("location_ids")
     .insert({ location_id: locationId });
 
-    if (error) {
-      console.error("Error inserting data:", error);
-    } else {
-      console.log("Data Inserted");
-    }
+  if (error) {
+    console.error("Error inserting data:", error);
+  } else {
+    console.log("Data Inserted");
+  }
 
   res.send({ message: "A new location was created!", locationId: locationId });
 });
