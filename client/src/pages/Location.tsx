@@ -1,7 +1,32 @@
 import NavBar from "../components/NavBar";
 import MainContainer from "../components/MainContainer";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import map from "../assets/map.png";
+import pin from "../assets/pin.png";
 
 function Location() {
+  const { id } = useParams();
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const locationUrl = "http://localhost:5000/location/";
+    async function fetchData() {
+      try {
+        const response = await fetch(`${locationUrl}${id}`);
+        if (!response.ok) {
+          throw new Error("Page not found");
+        }
+        const result = await response.json();
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchData();
+  }, [id]);
+
   return (
     <>
       <NavBar></NavBar>
