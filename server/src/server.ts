@@ -15,28 +15,24 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get(`/hello`, (req: Request, res: Response) => {
+app.get("/hello", (req: Request, res: Response) => {
   res.send({ message: "Hello from the Server!" });
 });
 
-app.post("/create-location", (req: Request, res: Response) => {
+app.post("/create-location", async (req: Request, res: Response) => {
   const { locationId } = req.body;
 
   console.log(locationId);
 
-  async function insertLocationId(id: string) {
     const { error } = await supabase
       .from("location_ids")
-      .insert({ location_id: id });
+    .insert({ location_id: locationId });
 
     if (error) {
       console.error("Error inserting data:", error);
     } else {
       console.log("Data Inserted");
     }
-  }
-
-  insertLocationId(locationId);
 
   res.send({ message: "A new location was created!", locationId: locationId });
 });
