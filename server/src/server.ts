@@ -45,14 +45,14 @@ app.get("/location/:id", async (req: Request, res: Response) => {
     .eq("location_id", id);
 
   if (error) {
-    return res.send({ Message: "An Error Occurred" });
+    return res.send({ isLocation: false });
   }
 
   if (data.length == 0) {
-    return res.send({ Message: "Your page does not exist" });
+    return res.send({ isLocation: false });
   }
 
-  res.send({ Message: "Your page does exist!" });
+  res.send({ isLocation: true });
 });
 
 const PORT = process.env.PORT || 5000;
