@@ -48,6 +48,15 @@ function CreateLocation() {
       const locationUrl: string = `http://localhost:5000/location/${response.locationId}`;
       setQRValue(locationUrl);
     });
+  }
+
+  function handleRefresh() {
+    setLoading(true);
+    createLocation();
+  }
+
+  useEffect(() => {
+    createLocation();
   }, []);
 
   return (
@@ -74,7 +83,10 @@ function CreateLocation() {
         >
           Download
         </button>
-        <button className="bg-primary-gray text-white py-2 px-4 rounded-md shadow-sm mt-2 w-[100px]">
+        <button
+          className="bg-primary-gray text-white py-2 px-4 rounded-md shadow-sm mt-2 w-[120px]"
+          onClick={handleRefresh}
+        >
           Refresh
         </button>
       </MainContainer>
