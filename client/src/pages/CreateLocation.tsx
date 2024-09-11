@@ -4,6 +4,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useEffect, useState } from "react";
 
 function CreateLocation() {
+  const [isLoading, setLoading] = useState(true);
   const [qrValue, setQRValue] = useState("https://example.org/");
 
   useEffect(() => {
@@ -33,6 +34,7 @@ function CreateLocation() {
 
     postData(createUrl, { locationId: locationId }).then((response) => {
       console.log(response);
+      setLoading(false);
       const locationUrl: string = `http://localhost:5000/location/${response.locationId}`;
       setQRValue(locationUrl);
     });
@@ -46,8 +48,15 @@ function CreateLocation() {
         <p className="text-xl text-center mt-2">
           place it anywhere and say <br></br>something, anything!
         </p>
-        <div className="bg-white h-80 w-80 my-4  rounded-md font-bold flex flex-col justify-center items-center drop-shadow-sm hover:drop-shadow-2xl transition duration-500 linear ">
-          <QRCodeSVG value={qrValue} size={275}></QRCodeSVG>
+        <div
+          ref={canvasRef}
+          className="bg-white h-80 w-80 my-4 rounded-md font-bold flex flex-col justify-center items-center drop-shadow-sm hover:drop-shadow-2xl transition duration-500 linear"
+        >
+          {isLoading ? (
+            <div id="loader"></div>
+          ) : (
+            <QRCodeCanvas value={qrValue} size={275}></QRCodeCanvas>
+          )}
         </div>
         <button className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-[100px]">
           Download
