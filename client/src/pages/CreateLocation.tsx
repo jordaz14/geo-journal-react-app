@@ -1,13 +1,23 @@
 import NavBar from "../components/NavBar";
 import MainContainer from "../components/MainContainer";
-import { QRCodeSVG } from "qrcode.react";
-import { useEffect, useState } from "react";
+import { QRCodeCanvas } from "qrcode.react";
+import { useEffect, useState, useRef } from "react";
 
 function CreateLocation() {
   const [isLoading, setLoading] = useState(true);
   const [qrValue, setQRValue] = useState("https://example.org/");
+  const canvasRef = useRef(null);
 
-  useEffect(() => {
+  function downloadQRCode() {
+    const canvas = canvasRef.current.querySelector("canvas");
+    const image = canvas.toDataURL("image/png");
+    const link = document.createElement("a");
+    link.href = image;
+    link.download = "qrcode.png";
+    link.click();
+  }
+
+  function createLocation() {
     const createUrl: string = "http://localhost:5000/create-location";
 
     const locationId = crypto.randomUUID();
@@ -58,7 +68,10 @@ function CreateLocation() {
             <QRCodeCanvas value={qrValue} size={275}></QRCodeCanvas>
           )}
         </div>
-        <button className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-[100px]">
+        <button
+          className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-[120px]"
+          onClick={downloadQRCode}
+        >
           Download
         </button>
         <button className="bg-primary-gray text-white py-2 px-4 rounded-md shadow-sm mt-2 w-[100px]">
