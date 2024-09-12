@@ -32,7 +32,7 @@ function Location() {
 
     fetchData().then((response) => {
       console.log(response);
-      setLoading(false);
+      setLoadingLocation(false);
       if (response.isLocation) {
         setLocation(true);
         getCoords();
@@ -48,6 +48,7 @@ function Location() {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           });
+          setLoadingMap(false);
         },
         (error) => {
           console.log(error);
@@ -62,7 +63,7 @@ function Location() {
     <>
       <NavBar></NavBar>
       <MainContainer>
-        {!isLoading ? (
+        {!isLoadingLocation ? (
           isLocation ? (
             <div
               id="vertical-container"
@@ -78,34 +79,40 @@ function Location() {
                 <p className="text-xl text-center mt-2">
                   but you have something to share, <br></br> so what do you say?
                 </p>
+                {!isLoadingMap ? (
+                  <>
+                    <div className="w-full flex-1 p-2 bg-white my-4 flex flex-col justify-center rounded-md drop-shadow-md hover:drop-shadow-2xl transition duration-500 linear relative">
                 <MapContainer
-                  center={position}
+                        center={[coords.lat as number, coords.lng as number]}
                   zoom={13}
-                  className="w-full flex-1 bg-white  my-6 rounded-md drop-shadow-md hover:drop-shadow-2xl transition duration-500 linear relative"
+                        className="w-full h-full bg-white "
                 >
                   <TileLayer
                     url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                     attribution='&copy; <a href="https://carto.com/">Carto</a>'
                   />
-                  <Marker position={position} />
+                        <Marker
+                          position={[
+                            coords.lat as number,
+                            coords.lng as number,
+                          ]}
+                        />
                 </MapContainer>
-                {/* 
-                <div className="w-80 flex-1 bg-white  my-6 rounded-md drop-shadow-md hover:drop-shadow-2xl transition duration-500 linear relative">
-                  <img
-                    src={map}
-                    alt="Map Image"
-                    className="object-cover w-full h-full rounded-md"
-                  />
-                  <img
-                    src={pin}
-                    alt="Pin Icon"
-                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10"
-                  />
                 </div>
-                */}
                 <p className="text-xl text-center">
                   Your location is: {coords.lat} {coords.lng}
                 </p>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-full flex-1 p-2 bg-white my-4 flex flex-col justify-center items-center rounded-md drop-shadow-md hover:drop-shadow-2xl transition duration-500 linear relative">
+                      <div id="loader"></div>
+                    </div>
+                    <p className="text-xl text-center">
+                      Your location is loading. <br></br> &nbsp;
+                    </p>
+                  </>
+                )}
               </div>
               <div id="input" className="w-full">
                 <textarea className="w-full h-[100px] rounded-md p-2 border border-solid border-secondary-gray resize-none" />
