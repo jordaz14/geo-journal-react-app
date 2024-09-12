@@ -8,12 +8,24 @@ import "leaflet/dist/leaflet.css";
 
 function Location() {
   const { id } = useParams();
-  const [isLoading, setLoading] = useState(true);
+  const [isLoadingLocation, setLoadingLocation] = useState(true);
+  const [isLoadingMap, setLoadingMap] = useState(true);
   const [isLocation, setLocation] = useState(false);
   const [coords, setCoords] = useState<{
     lat: null | number;
     lng: null | number;
   }>({ lat: null, lng: null });
+  const [formData, setFormData] = useState({ message: "" });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData({ message: value });
+    console.log(formData.message);
+  }
+
+  function formSubmit(e) {
+    e.preventDefault();
+  }
 
   useEffect(() => {
     const locationUrl = "http://localhost:5000/location/";
@@ -56,8 +68,6 @@ function Location() {
       );
     }
   }
-
-  const position = [40.69121039464011, -73.98549405341056];
 
   return (
     <>
@@ -114,12 +124,18 @@ function Location() {
                   </>
                 )}
               </div>
-              <div id="input" className="w-full">
-                <textarea className="w-full h-[100px] rounded-md p-2 border border-solid border-secondary-gray resize-none" />
+              <form id="input" className="w-full" onSubmit={formSubmit}>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full h-[100px] rounded-md p-2 border border-solid border-secondary-gray resize-none"
+                />
                 <button className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-full mt-4">
                   Submit
                 </button>
-              </div>
+              </form>
             </div>
           ) : (
             <>
