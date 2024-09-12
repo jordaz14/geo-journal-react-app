@@ -92,26 +92,26 @@ function Location() {
                 {!isLoadingMap ? (
                   <>
                     <div className="w-full flex-1 p-2 bg-white my-4 flex flex-col justify-center rounded-md drop-shadow-md hover:drop-shadow-2xl transition duration-500 linear relative">
-                <MapContainer
+                      <MapContainer
                         center={[coords.lat as number, coords.lng as number]}
-                  zoom={13}
+                        zoom={13}
                         className="w-full h-full bg-white "
-                >
-                  <TileLayer
-                    url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-                    attribution='&copy; <a href="https://carto.com/">Carto</a>'
-                  />
+                      >
+                        <TileLayer
+                          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                          attribution='&copy; <a href="https://carto.com/">Carto</a>'
+                        />
                         <Marker
                           position={[
                             coords.lat as number,
                             coords.lng as number,
                           ]}
                         />
-                </MapContainer>
-                </div>
-                <p className="text-xl text-center">
-                  Your location is: {coords.lat} {coords.lng}
-                </p>
+                      </MapContainer>
+                    </div>
+                    <p className="text-xl text-center">
+                      Your location is: {coords.lat} {coords.lng}
+                    </p>
                   </>
                 ) : (
                   <>
