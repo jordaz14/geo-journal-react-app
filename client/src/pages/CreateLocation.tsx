@@ -45,7 +45,7 @@ function CreateLocation() {
     postData(createUrl, { locationId: locationId }).then((response) => {
       console.log(response);
       setLoading(false);
-      const locationUrl: string = `http://localhost:5000/location/${response.locationId}`;
+      const locationUrl: string = `http://localhost:5173/location/${response.locationId}`;
       setQRValue(locationUrl);
     });
   }
