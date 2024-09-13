@@ -1,5 +1,6 @@
 import NavBar from "../components/NavBar";
 import MainContainer from "../components/MainContainer";
+import VerticalContainer from "../components/VerticalContainer";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -75,10 +76,7 @@ function Location() {
       <MainContainer>
         {!isLoadingLocation ? (
           isLocation ? (
-            <div
-              id="vertical-container"
-              className="w-[500px] h-full flex flex-col items-center py-6 px-2"
-            >
+            <VerticalContainer>
               <div
                 id="feed"
                 className=" w-full flex-1 flex flex-col mb-4 items-center justify-center"
@@ -136,7 +134,7 @@ function Location() {
                   Submit
                 </button>
               </form>
-            </div>
+            </VerticalContainer>
           ) : (
             <>
               <h1 className="text-8xl font-bold text-primary-red">uh oh</h1>
