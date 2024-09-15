@@ -46,7 +46,7 @@ function SearchLocation() {
           <p className="text-xl text-center mt-2">
             see if any others have come along
           </p>
-          <div className="w-full h-[300px] p-2 bg-white my-4 flex flex-col justify-center rounded-md drop-shadow-md hover:drop-shadow-2xl transition duration-500 linear relative">
+          <div className="w-full min-h-[200px] max-h-[300px] p-2 bg-white my-4 flex flex-col justify-center rounded-md drop-shadow-md hover:drop-shadow-2xl transition duration-500 linear relative">
             <MapContainer
               center={[coords.lat as number, coords.lng as number]}
               zoom={13}
@@ -58,7 +58,7 @@ function SearchLocation() {
           <p className="text-xl text-center mb-4">
             Your location is: {coords.lat} {coords.lng}
           </p>
-          <div className="overflow-y-auto no-scrollbar w-full h-[400px]">
+          <div className="overflow-y-auto no-scrollbar w-full h-[200px]">
             {locations.map((location) => (
               <div
                 onMouseEnter={() =>
