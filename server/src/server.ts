@@ -55,6 +55,24 @@ app.get("/location/:id", async (req: Request, res: Response) => {
   res.send({ isLocation: true });
 });
 
+app.post("/create-account", async (req: Request, res: Response) => {
+  const { username, email, password, confirmPassword } = req.body;
+
+  if (!username || !email || !password || !confirmPassword) {
+    res.send({ Message: "Invalid username or password" });
+    return;
+  }
+
+  if (password != confirmPassword) {
+    res.send({ Message: "Passwords do not match" });
+    return;
+  }
+
+  
+
+  res.send({ message: "Hooray from the server!" });
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
