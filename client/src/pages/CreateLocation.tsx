@@ -1,5 +1,6 @@
 import NavBar from "../components/NavBar";
 import MainContainer from "../components/MainContainer";
+import { postData } from "../utils/fetch";
 import { QRCodeCanvas } from "qrcode.react";
 import { useEffect, useState, useRef } from "react";
 
@@ -21,26 +22,6 @@ function CreateLocation() {
     const createUrl: string = "http://localhost:5000/create-location";
 
     const locationId = crypto.randomUUID();
-
-    async function postData(url: string, data: any) {
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const result = await response.json();
-
-        return result;
-      } catch (error) {
-        console.log(error);
-      }
-    }
 
     postData(createUrl, { locationId: locationId }).then((response) => {
       console.log(response);
