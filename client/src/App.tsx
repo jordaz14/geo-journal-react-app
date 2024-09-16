@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Location from "./pages/Location";
 import CreateLocation from "./pages/CreateLocation";
 import SearchLocation from "./pages/SearchLocation";
+import Session from "./pages/Session";
 import Account from "./pages/Account";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Route path="/create" element={<CreateLocation />}></Route>
         <Route path="/location/:id" element={<Location />}></Route>
         <Route path="/search" element={<SearchLocation />}></Route>
+        <Route path="/session" element={<Session />}></Route>
         <Route path="/account" element={<Account />}></Route>
       </Routes>
     </Router>
