@@ -1,23 +1,38 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { postData } from "../utils/fetch";
+import { serverUrl } from "../utils/fetch";
+import { useNavigate } from "react-router-dom";
 
 function LogInForm({ isUser, setUser }) {
   const [FormData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
-  const [FormError, setFormError] = useState("");
+  const [FormNotify, setFormNotify] = useState("");
   const [isPasswordVisible, setShowPasswordVisible] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setFormNotify("");
 
     if (checkIfError()) {
       return;
     }
 
-    setFormData({ username: "", password: "" });
-    setFormError("");
+    postData(`${serverUrl}/log-in`, FormData).then((response) => {
+      console.log(response);
+
+      if (response.token) {
+        localStorage.setItem("token", response.token);
+        navigate("/account");
+        return;
+      }
+
+      setFormNotify(response.message);
+      setFormData({ email: "", password: "" });
+    });
   };
 
   const handleInputChange = (e) => {
@@ -30,8 +45,8 @@ function LogInForm({ isUser, setUser }) {
   };
 
   const checkIfError = () => {
-    if (FormData.username.length < 1 || FormData.password.length < 1) {
-      setFormError("Invalid username or password");
+    if (FormData.email.length < 1 || FormData.password.length < 1) {
+      setFormNotify("Invalid email or password");
       return true;
     }
   };
@@ -42,15 +57,15 @@ function LogInForm({ isUser, setUser }) {
         onSubmit={handleSubmit}
         className="flex flex-col bg-white rounded-md w-[500px] py-4 px-6 mt-4 drop-shadow-sm hover:drop-shadow-2xl transition duration-500 linear"
       >
-        <label htmlFor="username">Username</label>
+        <label htmlFor="email">Email</label>
         <input
           type="text"
-          name="username"
-          value={FormData.username}
+          name="email"
+          value={FormData.email}
           onChange={handleInputChange}
           className="bg-tertiary-gray rounded-md p-2 border border-solid border-secondary-gray"
         />
-        <label htmlFor="" className="mt-4">
+        <label htmlFor="password" className="mt-4">
           Password
         </label>
         <div className="relative inline-block w-full">
@@ -84,7 +99,7 @@ function LogInForm({ isUser, setUser }) {
         </p>
       </form>
       <p className="text-center font-bold text-primary-red mt-2">
-        &nbsp;{FormError}&nbsp;
+        &nbsp;{FormNotify}&nbsp;
       </p>
     </>
   );
