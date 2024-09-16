@@ -1,27 +1,26 @@
 import NavBar from "../components/NavBar";
 import MainContainer from "../components/MainContainer";
-import LogInForm from "../components/LogInForm";
-import CreateAccountForm from "../components/CreateAccountForm";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Account() {
-  const [isUser, setUser] = useState(true);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    console.log("log out");
+    localStorage.removeItem("token");
+    navigate("/session");
+  };
 
   return (
     <>
       <NavBar></NavBar>
       <MainContainer>
-        {isUser ? (
-          <>
-            <h1 className="text-4xl font-bold">welcome back</h1>
-            <LogInForm isUser={isUser} setUser={() => setUser(false)} />
-          </>
-        ) : (
-          <>
-            <h1 className="text-4xl font-bold">welcome</h1>
-            <CreateAccountForm isUser={isUser} setUser={() => setUser(true)} />
-          </>
-        )}
+        <p>Welcome to your account!</p>
+        <button
+          onClick={handleLogout}
+          className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm mt-4"
+        >
+          Log Out
+        </button>
       </MainContainer>
     </>
   );
