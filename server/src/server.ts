@@ -21,17 +21,7 @@ app.get("/hello", (req: Request, res: Response) => {
 app.post("/create-location", async (req: Request, res: Response) => {
   const { locationId } = req.body;
 
-  console.log(locationId);
-
-  const { error } = await supabase
-    .from("location_ids")
-    .insert({ location_id: locationId });
-
-  if (error) {
-    console.error("Error inserting data:", error);
-  } else {
-    console.log("Data Inserted");
-  }
+  insertLocationId(locationId);
 
   res.send({ message: "A new location was created!", locationId: locationId });
 });
@@ -39,16 +29,9 @@ app.post("/create-location", async (req: Request, res: Response) => {
 app.get("/location/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const { data, error } = await supabase
-    .from("location_ids")
-    .select("*")
-    .eq("location_id", id);
+  const locationIdData = (await getLocationId(id)) as any[];
 
-  if (error) {
-    return res.send({ isLocation: false });
-  }
-
-  if (data.length == 0) {
+  if (locationIdData.length == 0) {
     return res.send({ isLocation: false });
   }
 
