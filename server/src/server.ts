@@ -38,22 +38,64 @@ app.get("/location/:id", async (req: Request, res: Response) => {
   res.send({ isLocation: true });
 });
 
-app.post("/create-account", async (req: Request, res: Response) => {
+app.post("/register", async (req: Request, res: Response) => {
   const { username, email, password, confirmPassword } = req.body;
 
+  // Server-side validation
   if (!username || !email || !password || !confirmPassword) {
-    res.send({ Message: "Invalid username or password" });
+    res.send({ message: "Invalid username or password" });
     return;
   }
 
   if (password != confirmPassword) {
-    res.send({ Message: "Passwords do not match" });
+    res.send({ message: "Passwords do not match" });
     return;
   }
 
-  
+  const userDataByUsername = await getUser("username", username);
+  if (userDataByUsername?.length != 0) {
+    res.send({ message: "Username already exists." });
+    return;
+  }
 
-  res.send({ message: "Hooray from the server!" });
+  const userDataByEmail = await getUser("email", email);
+  if (userDataByEmail?.length != 0) {
+    res.send({ message: "Email already exists." });
+    return;
+  }
+
+  // Password hashing
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+  // Insert user into database
+  insertUser(username, email, hashedPassword);
+
+  res.send({ message: "Account Created! Click here to login" });
+});
+
+app.post("/log-in", async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  const userData = (await getUser("email", email)) as any[];
+
+  if (userData?.length == 0) {
+    res.send({ message: "Incorrect email or password." });
+    return;
+  }
+
+  const isPasswordMatch = await bcrypt.compare(password, userData[0].password);
+
+  if (isPasswordMatch) {
+    const token = generateToken(email);
+    return res.send({ message: "Logging In", token: token });
+  } else {
+    return res.send({ message: "Incorrect email or password." });
+  }
+});
+ 
+
+
 });
 
 const PORT = process.env.PORT || 5000;
