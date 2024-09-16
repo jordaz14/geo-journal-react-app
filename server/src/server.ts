@@ -1,6 +1,14 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
+import {
+  getLocationId,
+  getUser,
+  insertLocationId,
+  insertUser,
+} from "./utils/supabase";
 import { createClient } from "@supabase/supabase-js";
 
 dotenv.config();
@@ -13,6 +21,8 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+const JWT_SECRET: string = process.env.JWT_SECRET as string;
 
 app.get("/hello", (req: Request, res: Response) => {
   res.send({ message: "Hello from the Server!" });
@@ -93,12 +103,36 @@ app.post("/log-in", async (req: Request, res: Response) => {
     return res.send({ message: "Incorrect email or password." });
   }
 });
- 
 
-
-});
+app.post("/create-entry", async (req: Request, res: Response) => {
+  console.log(req.body)
+})
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+const generateToken = (userEmail: string) => {
+  return jwt.sign({ userEmail }, JWT_SECRET, { expiresIn: "1hr" });
+};
+
+// Middleware to verify token
+const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
+  const authHeader = req.headers.authorization;
+
+  if (authHeader) {
+    const token = authHeader.split(" ")[1];
+
+    jwt.verify(token, JWT_SECRET, (error, userEmail) => {
+      if (error) {
+        return res.sendStatus(403);
+      }
+
+      req.userEmail = userEmail;
+      next();
+    });
+  } else {
+    res.sendStatus(401);
+  }
+};
