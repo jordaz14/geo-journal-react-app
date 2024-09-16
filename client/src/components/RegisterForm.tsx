@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { postData, serverUrl } from "../utils/fetch";
 
-function CreateAccountForm({ isUser, setUser }) {
+function RegisterForm({ isUser, setUser }) {
   const [FormData, setFormData] = useState({
     username: "",
     email: "",
@@ -19,7 +19,7 @@ function CreateAccountForm({ isUser, setUser }) {
       return;
     }
 
-    postData(`${serverUrl}/create-account`, FormData).then((response) => {
+    postData(`${serverUrl}/register`, FormData).then((response) => {
       console.log(response);
       setFormNotify(response.message);
     });
@@ -138,4 +138,4 @@ function CreateAccountForm({ isUser, setUser }) {
   );
 }
 
-export default CreateAccountForm;
+export default RegisterForm;
