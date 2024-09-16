@@ -1,4 +1,3 @@
-import { METHODS } from "http";
 import { supabase } from "../server";
 
 export const insertLocationId = async (locationId: string) => {
