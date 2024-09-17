@@ -113,26 +113,6 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-const generateToken = (userEmail: string) => {
-  return jwt.sign({ userEmail }, JWT_SECRET, { expiresIn: "1hr" });
-};
-
-// Middleware to verify token
-const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
-
-  if (authHeader) {
-    const token = authHeader.split(" ")[1];
-
-    jwt.verify(token, JWT_SECRET, (error, userEmail) => {
-      if (error) {
-        return res.sendStatus(403);
-      }
-
-      req.userEmail = userEmail;
-      next();
-    });
-  } else {
-    res.sendStatus(401);
-  }
+const generateToken = (email: string) => {
+  return jwt.sign({ email }, JWT_SECRET, { expiresIn: "1hr" });
 };
