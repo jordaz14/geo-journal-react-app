@@ -10,6 +10,8 @@ import {
   insertUser,
 } from "./utils/supabase";
 import { createClient } from "@supabase/supabase-js";
+import { authenticateJWT } from "./middleware/authMiddleware";
+var cookieParser = require("cookie-parser");
 
 dotenv.config();
 
@@ -17,16 +19,14 @@ const SUPABASE_URL: string = process.env.SUPABASE_URL as string;
 const SUPABASE_KEY: string = process.env.SUPABASE_KEY as string;
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const JWT_SECRET: string = process.env.JWT_SECRET as string;
+const clientUrl = "http://localhost:5173";
+
 const app = express();
 
 app.use(express.json());
-app.use(cors());
-
-const JWT_SECRET: string = process.env.JWT_SECRET as string;
-
-app.get("/hello", (req: Request, res: Response) => {
-  res.send({ message: "Hello from the Server!" });
-});
+app.use(cors({ origin: clientUrl, credentials: true }));
+app.use(cookieParser());
 
 app.post("/create-location", async (req: Request, res: Response) => {
   const { locationId } = req.body;
