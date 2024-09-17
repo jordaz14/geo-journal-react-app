@@ -3,7 +3,7 @@ import { Request } from "express";
 declare global {
   namespace Express {
     interface Request {
-      userEmail?: JwtPayload | string | undefined;
+      user?: JwtPayload | string | undefined;
     }
   }
 }
