@@ -1,13 +1,15 @@
 import NavBar from "../components/NavBar";
 import MainContainer from "../components/MainContainer";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 function Account() {
+  const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
-  const handleLogout = () => {
-    console.log("log out");
-    localStorage.removeItem("token");
-    navigate("/session");
+
+  const handleLogout = async () => {
+    await logout();
   };
 
   return (
