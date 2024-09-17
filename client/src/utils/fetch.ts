@@ -19,3 +19,20 @@ export async function postData(url: string, data: any) {
     console.log(error);
   }
 }
+
+export async function fetchData(url: string) {
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+    });
+    if (!response.ok) {
+      throw new Error("Page not found");
+    }
+    const result = await response.json();
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
