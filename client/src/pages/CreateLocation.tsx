@@ -62,13 +62,13 @@ function CreateLocation() {
           className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-[120px]"
           onClick={downloadQRCode}
         >
-          Download
+          download
         </button>
         <button
           className="bg-primary-gray text-white py-2 px-4 rounded-md shadow-sm mt-2 w-[120px]"
           onClick={handleRefresh}
         >
-          Refresh
+          refresh
         </button>
       </MainContainer>
     </>
