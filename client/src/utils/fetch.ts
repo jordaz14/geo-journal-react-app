@@ -1,11 +1,16 @@
-export const serverUrl = "http://localhost:5000"
+export const serverUrl = "http://localhost:5000";
 
-export async function postData(url: string, data: any) {
+export async function postData(
+  url: string,
+  data: any = {},
+  headers: {} = { "Content-Type": "application/json" }
+) {
   try {
     const response = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: headers,
       body: JSON.stringify(data),
+      credentials: "include",
     });
 
     if (!response.ok) {
