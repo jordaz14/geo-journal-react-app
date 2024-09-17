@@ -2,13 +2,14 @@ import NavBar from "../components/NavBar";
 import MainContainer from "../components/MainContainer";
 import VerticalContainer from "../components/VerticalContainer";
 import MapComponent from "../components/MapComponent";
+import { AuthContext } from "../context/AuthContext";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 function SearchLocation() {
   const [coords, setCoords] = useState({ lat: 40.6875646, lng: -73.9940103 });
-  const isLoginToken = localStorage.getItem("token");
+  const { user } = useContext(AuthContext);
 
   const locations = [
     {
@@ -41,7 +42,7 @@ function SearchLocation() {
     <>
       <NavBar></NavBar>
       <MainContainer>
-        {isLoginToken ? (
+        {user ? (
           <VerticalContainer>
             <h1 className="text-4xl font-bold text-center">
               oh, the places you've been
@@ -98,7 +99,7 @@ function SearchLocation() {
               to="/session"
               className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm mt-4"
             >
-              Log in
+              log in
             </Link>
           </>
         )}
