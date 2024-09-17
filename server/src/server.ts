@@ -84,7 +84,17 @@ app.post("/register", async (req: Request, res: Response) => {
   res.send({ message: "Account Created! Click here to login" });
 });
 
-app.post("/log-in", async (req: Request, res: Response) => {
+app.get("/auth", authenticateJWT, (req, res) => {
+  console.log("Received auth-status request");
+
+  if (req.user) {
+    res.json({ authenticated: true, user: req.user });
+  } else {
+    res.json({ authenticated: false, user: req.user });
+  }
+});
+
+app.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const userData = (await getUser("email", email)) as any[];
