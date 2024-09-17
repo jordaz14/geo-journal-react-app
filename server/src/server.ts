@@ -114,9 +114,23 @@ app.post("/login", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/create-entry", async (req: Request, res: Response) => {
-  console.log(req.body)
-})
+app.post("/logout", (req: Request, res: Response) => {
+  console.log("Attempting logout");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.send({ message: "Logged Out" });
+});
+
+app.post(
+  "/create-entry",
+  authenticateJWT,
+  async (req: Request, res: Response) => {
+    console.log(req.body);
+    console.log(req.user);
+  }
+);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
