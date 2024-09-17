@@ -6,8 +6,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { serverUrl, postData, fetchData } from "../utils/fetch";
 
-function Location() {
+function ViewLocation() {
   const { id } = useParams();
   const [isLoadingLocation, setLoadingLocation] = useState(true);
   const [isLoadingMap, setLoadingMap] = useState(true);
@@ -17,6 +18,7 @@ function Location() {
     lng: null | number;
   }>({ lat: null, lng: null });
   const [formData, setFormData] = useState({ message: "" });
+  const isLoginToken: string | null = localStorage.getItem("token");
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -26,24 +28,21 @@ function Location() {
 
   function formSubmit(e) {
     e.preventDefault();
+
+    postData(
+      `${serverUrl}/create-entry`,
+      {
+        data: [coords, formData],
+      },
+      {
+        Authorization: `Bearer ${isLoginToken}`,
+        "Content-Type": "application/json",
+      }
+    ).then((response) => console.log(response));
   }
 
   useEffect(() => {
-    const locationUrl = "http://localhost:5000/location/";
-    async function fetchData() {
-      try {
-        const response = await fetch(`${locationUrl}${id}`);
-        if (!response.ok) {
-          throw new Error("Page not found");
-        }
-        const result = await response.json();
-        return result;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    fetchData().then((response) => {
+    fetchData(`${serverUrl}/location/${id}`).then((response) => {
       console.log(response);
       setLoadingLocation(false);
       if (response.isLocation) {
@@ -136,7 +135,7 @@ function Location() {
               </form>
             </VerticalContainer>
           ) : (
-            <>
+            /* If location not found*/ <>
               <h1 className="text-8xl font-bold text-primary-red">uh oh</h1>
               <p className="text-4xl font-bold text-center">
                 it seems like you got lost, <br></br> let's get you back
@@ -145,16 +144,16 @@ function Location() {
                 to="/"
                 className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm mt-4"
               >
-                Home
+                home
               </Link>
             </>
           )
         ) : (
-          <div id="loader"></div>
+          /* If not loadingLocation */ <div id="loader"></div>
         )}
       </MainContainer>
     </>
   );
 }
 
-export default Location;
+export default ViewLocation;
