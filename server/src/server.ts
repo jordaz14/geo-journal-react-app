@@ -108,9 +108,28 @@ app.post("/login", async (req: Request, res: Response) => {
 
   if (isPasswordMatch) {
     const token = generateToken(email);
-    return res.send({ message: "Logging In", token: token });
+    console.log("Login token", token);
+
+    res.cookie("token", token),
+      {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "None",
+        maxAge: 3600000,
+      };
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    return res.send({
+      message: "Yay, Logged In",
+      isLoggedIn: true,
+      user: decoded,
+    });
   } else {
-    return res.send({ message: "Incorrect email or password." });
+    return res.send({
+      message: "Incorrect email or password.",
+      isLoggedIn: false,
+    });
   }
 });
 
