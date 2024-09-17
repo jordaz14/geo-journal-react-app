@@ -16,14 +16,14 @@ function LogInForm({ isUser, setUser }) {
     e.preventDefault();
     setFormNotify("");
 
-    if (checkIfError()) {
+    if (!validateClientSide) {
       return;
     }
 
     console.log("await login");
     await login(FormData);
 
-      setFormData({ email: "", password: "" });
+    setFormData({ email: "", password: "" });
   };
 
   const handleInputChange = (e) => {
@@ -35,7 +35,7 @@ function LogInForm({ isUser, setUser }) {
     });
   };
 
-  const checkIfError = () => {
+  const validateClientSide = () => {
     if (FormData.email.length < 1 || FormData.password.length < 1) {
       setFormNotify("Invalid email or password");
       return true;
