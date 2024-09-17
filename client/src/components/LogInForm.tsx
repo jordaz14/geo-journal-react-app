@@ -1,8 +1,6 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { postData } from "../utils/fetch";
-import { serverUrl } from "../utils/fetch";
-import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 function LogInForm({ isUser, setUser }) {
   const [FormData, setFormData] = useState({
@@ -11,9 +9,10 @@ function LogInForm({ isUser, setUser }) {
   });
   const [FormNotify, setFormNotify] = useState("");
   const [isPasswordVisible, setShowPasswordVisible] = useState(false);
-  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    console.log("begin form submission");
     e.preventDefault();
     setFormNotify("");
 
@@ -21,18 +20,10 @@ function LogInForm({ isUser, setUser }) {
       return;
     }
 
-    postData(`${serverUrl}/log-in`, FormData).then((response) => {
-      console.log(response);
+    console.log("await login");
+    await login(FormData);
 
-      if (response.token) {
-        localStorage.setItem("token", response.token);
-        navigate("/account");
-        return;
-      }
-
-      setFormNotify(response.message);
       setFormData({ email: "", password: "" });
-    });
   };
 
   const handleInputChange = (e) => {
