@@ -22,7 +22,7 @@ function Home() {
             to="/create"
             className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm z-10"
           >
-            Create Location
+            create location
           </Link>
         </div>
       </MainContainer>
