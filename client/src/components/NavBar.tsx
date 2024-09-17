@@ -1,7 +1,9 @@
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
 function NavBar() {
-  const isLoginToken: string | null = localStorage.getItem("token");
+  const { user } = useContext(AuthContext);
 
   return (
     <nav className="w-full h-12 bg-white drop-shadow-sm flex align-middle font-lato font-bold text-md">
@@ -14,10 +16,10 @@ function NavBar() {
         <Link to="/search" className="flex items-center">
           locations
         </Link>
-        {isLoginToken ? (
+        {user ? (
           <Link
             to="/account"
-            className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md h-[75%] "
+            className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md"
           >
             account
           </Link>
