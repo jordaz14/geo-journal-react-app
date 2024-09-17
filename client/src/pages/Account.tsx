@@ -19,7 +19,7 @@ function Account() {
           onClick={handleLogout}
           className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm mt-4"
         >
-          Log Out
+          log out
         </button>
       </MainContainer>
     </>
