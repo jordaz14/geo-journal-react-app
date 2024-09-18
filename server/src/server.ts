@@ -95,11 +95,15 @@ app.post("/register", async (req: Request, res: Response) => {
   // Insert submitted user into database
   insertUser(username, email, hashedPassword);
 
-  res.send({ message: "Account Created! Click here to login" });
+  res.send({
+    message: "Account Created! Click here to login",
+    isRegistered: true,
+  });
 });
 
 /* HANDLE USER AUTH (INITIAL CLIENT LOAD) */
 app.get("/auth", authenticateJWT, (req, res) => {
+  console.log("auth attempting");
   if (req.user) {
     res.json({ authenticated: true, user: req.user });
   } else {
@@ -172,6 +176,8 @@ app.post(
   async (req: Request, res: Response) => {
     const { locationId } = req.params;
     const { coords, formData } = req.body;
+
+    //TO DO: validate form input
 
     // Check if user is logged in
     if (req.user) {
