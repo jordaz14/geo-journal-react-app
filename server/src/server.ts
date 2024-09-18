@@ -164,6 +164,8 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
+// HANDLES JWT TOKEN CREATION
 const generateToken = (email: string) => {
+  // Create token with email payload, secret key, and expiration time
   return jwt.sign({ email }, JWT_SECRET, { expiresIn: "1hr" });
 };
