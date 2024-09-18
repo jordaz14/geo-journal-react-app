@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { serverUrl, fetchData, postData } from "../utils/fetch";
 import { useNavigate } from "react-router-dom";
+import { AuthResponse } from "../types/types";
 
 interface AuthContextType {
   user: string | null;
@@ -16,35 +17,41 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  // AUTHORIZE USER ON APP LOAD
   useEffect(() => {
-    const checkAuth = async () => {
-      console.log("Attempting auth-status");
-      fetchData(`${serverUrl}/auth`).then((response) => {
-        console.log(response);
-        if (response.authenticated) {
-          setUser(response.user);
-        }
-        setLoading(false);
-      });
-    };
+    fetchData(`${serverUrl}/auth`).then((response: AuthResponse) => {
+      console.log(response);
 
-    checkAuth();
+      // If authenticated, populate user data
+      if (response.authenticated) {
+        setUser(response.user);
+      }
+
+      setLoading(false);
+    });
   }, []);
 
+  // HANDLE USER LOGIN
   const login = async (formData: any) => {
     console.log("Attempting login");
+
     postData(`${serverUrl}/login`, formData).then((response) => {
       console.log(response);
+
+      // If logged in, populate user data & redirect to /account
       if (response.isLoggedIn) {
         setUser(response.user);
         navigate("/account");
       }
+
       return response;
     });
   };
 
+  // HANDLE USER LOGOUT
   const logout = async () => {
     console.log("Attempting logout");
+
     postData(`${serverUrl}/logout`).then((response) => {
       console.log(response);
       setUser(null);
