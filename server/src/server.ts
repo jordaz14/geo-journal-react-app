@@ -4,14 +4,18 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import {
+  getEntry,
   getLocationId,
   getUser,
+  insertEntry,
   insertLocationId,
   insertUser,
 } from "./utils/supabase";
 import { authenticateJWT } from "./middleware/authMiddleware";
+import { generateToken, JWT_SECRET } from "./utils/jwt";
 var cookieParser = require("cookie-parser");
 
+const app = express();
 dotenv.config();
 const clientUrl = "http://localhost:5173";
 
