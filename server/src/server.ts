@@ -36,10 +36,10 @@ app.post("/create-location", async (req: Request, res: Response) => {
   res.send({ message: "A new location was created!", locationId: locationId });
 });
 
-app.get("/location/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
+app.get("/location/:locationId", async (req: Request, res: Response) => {
+  const { locationId } = req.params;
 
-  const locationIdData = (await getLocationId(id)) as any[];
+  const locationIdData = (await getLocationId(locationId)) as any[];
 
   if (locationIdData.length == 0) {
     return res.send({ isLocation: false });
