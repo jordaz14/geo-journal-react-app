@@ -48,6 +48,7 @@ export const insertUser = async (
   }
 };
 
+//
 export const getUser = async (
   userAttributeName: string,
   userAttributeValue: string
@@ -64,6 +65,8 @@ export const getUser = async (
   }
 };
 
+/* INSERT ENTRY FOR USER WITH LOCATION ID & MESSAGE */
+// TO DO: Add location coords as well
 export const insertEntry = async (
   userId: number,
   locationId: string,
@@ -80,6 +83,7 @@ export const insertEntry = async (
   }
 };
 
+/* GET ENTRY FOR GIVEN LOCATION */
 export const getEntry = async (locationTableId: number) => {
   const { data, error } = await supabase
     .from("entries")
