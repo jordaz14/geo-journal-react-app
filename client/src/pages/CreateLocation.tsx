@@ -59,13 +59,13 @@ const CreateLocation = () => {
           )}
         </div>
         <button
-          className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-[120px]"
+          className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-[120px] font-bold"
           onClick={downloadQRCode}
         >
           download
         </button>
         <button
-          className="bg-primary-gray text-white py-2 px-4 rounded-md shadow-sm mt-2 w-[120px]"
+          className="bg-primary-gray text-white py-2 px-4 rounded-md shadow-sm mt-2 w-[120px] font-bold"
           onClick={handleRefresh}
         >
           refresh

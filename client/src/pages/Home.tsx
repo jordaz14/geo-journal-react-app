@@ -20,7 +20,7 @@ const Home = () => {
           <img src={icon} className="w-10 h-10 z-10" alt="Pin Icon" />
           <Link
             to="/create"
-            className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm z-10"
+            className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm z-10 font-bold"
           >
             create location
           </Link>

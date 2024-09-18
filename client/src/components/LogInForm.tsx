@@ -78,7 +78,7 @@ function LogInForm({ isUser, setUser }) {
             {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
-        <button className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-full mt-4 pr-4">
+        <button className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-full mt-4 pr-4 font-bold">
           log in
         </button>
 
@@ -94,6 +94,6 @@ function LogInForm({ isUser, setUser }) {
       </p>
     </>
   );
-}
+};
 
 export default LogInForm;

@@ -121,7 +121,7 @@ function RegisterForm({ isUser, setUser }) {
             {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
-        <button className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-full mt-4">
+        <button className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-full mt-4 font-bold">
           register
         </button>
         <p className="text-center mt-2">
@@ -136,6 +136,6 @@ function RegisterForm({ isUser, setUser }) {
       </p>
     </>
   );
-}
+};
 
 export default RegisterForm;
