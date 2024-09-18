@@ -1,35 +1,39 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { postData, serverUrl } from "../utils/fetch";
+import { useNavigate } from "react-router-dom";
 
-function RegisterForm({ isUser, setUser }) {
+const RegisterForm = ({ setUser }) => {
+  const [FormNotify, setFormNotify] = useState("");
+  const [isPasswordVisible, setShowPasswordVisible] = useState(false);
+  const navigate = useNavigate();
   const [FormData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const [FormNotify, setFormNotify] = useState("");
-  const [isPasswordVisible, setShowPasswordVisible] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setFormNotify("");
 
-    if (checkIfError()) {
+    // Check if valid input
+    if (!validateClientSideInput) {
       return;
     }
 
     postData(`${serverUrl}/register`, FormData).then((response) => {
       console.log(response);
       setFormNotify(response.message);
+      window.location.reload();
     });
 
     setFormData({ username: "", email: "", password: "", confirmPassword: "" });
-    setFormNotify("");
-  };
+  }
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  function handleInputChange(event) {
+    const { name, value } = event.target;
 
     setFormData({
       ...FormData,
@@ -37,21 +41,24 @@ function RegisterForm({ isUser, setUser }) {
     });
 
     console.log(FormData);
-  };
+  }
 
-  const checkIfError = () => {
+  // VALIDATES INPUT
+  function validateClientSideInput() {
+    //Check all inputs fulfilled
     for (const prop in FormData) {
       if (FormData[prop].length < 1) {
-        setFormNotify("Invalid username or password");
+        setFormNotify("Invalid username, email, or password");
         return true;
       }
     }
 
+    // Check matching passwords
     if (FormData.password != FormData.confirmPassword) {
       setFormNotify("Passwords do not match");
       return true;
     }
-  };
+  }
 
   return (
     <>
