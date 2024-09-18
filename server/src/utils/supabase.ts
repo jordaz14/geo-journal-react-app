@@ -1,4 +1,11 @@
-import { supabase } from "../server";
+import { createClient } from "@supabase/supabase-js";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+const SUPABASE_URL: string = process.env.SUPABASE_URL as string;
+const SUPABASE_KEY: string = process.env.SUPABASE_KEY as string;
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export const insertLocationId = async (locationId: string) => {
   const { data, error } = await supabase
