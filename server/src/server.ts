@@ -45,7 +45,15 @@ app.get("/location/:locationId", async (req: Request, res: Response) => {
     return res.send({ isLocation: false });
   }
 
-  res.send({ isLocation: true });
+  const locationTableId = locationIdData[0].id;
+
+  const locationEntries = (await getEntry(locationTableId)) as any[];
+
+  if (locationEntries.length == 0) {
+    return res.send({ isLocation: true, isEntry: false });
+  }
+
+  res.send({ isLocation: true, isEntry: true, entry: locationEntries });
 });
 
 app.post("/register", async (req: Request, res: Response) => {
