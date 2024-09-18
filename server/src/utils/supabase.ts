@@ -56,3 +56,32 @@ export const getUser = async (
     return data;
   }
 };
+
+export const insertEntry = async (
+  userId: number,
+  locationId: string,
+  message: string
+) => {
+  const { data, error } = await supabase
+    .from("entries")
+    .insert({ user_id: userId, location_id: locationId, message: message });
+
+  if (error) {
+    console.error();
+  } else {
+    console.log("Entry inserted");
+  }
+};
+
+export const getEntry = async (locationTableId: number) => {
+  const { data, error } = await supabase
+    .from("entries")
+    .select("*")
+    .eq("location_id", locationTableId);
+
+  if (error) {
+    console.error();
+  } else {
+    return data;
+  }
+};
