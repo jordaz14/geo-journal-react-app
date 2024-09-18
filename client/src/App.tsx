@@ -17,14 +17,13 @@ function App() {
   }
 
   const { loading } = useContext(AuthContext) as AuthContextType;
-
   if (loading) return <div></div>;
 
   return (
     <Routes>
       <Route path="/" element={<Home />}></Route>
       <Route path="/create" element={<CreateLocation />}></Route>
-      <Route path="/location/:id" element={<ViewLocation />}></Route>
+      <Route path="/location/:locationId" element={<ViewLocation />}></Route>
       <Route path="/search" element={<SearchLocation />}></Route>
       <Route path="/session" element={<Session />}></Route>
       <Route path="/account" element={<Account />}></Route>
