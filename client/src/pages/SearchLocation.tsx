@@ -3,7 +3,7 @@ import MainContainer from "../components/MainContainer";
 import VerticalContainer from "../components/VerticalContainer";
 import MapComponent from "../components/MapComponent";
 import { AuthContext } from "../context/AuthContext";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer } from "react-leaflet";
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
@@ -62,7 +62,10 @@ const SearchLocation = () => {
             <p className="text-xl text-center mb-4">
               Your location is: {coords.lat} {coords.lng}
             </p>
-            <div className="overflow-y-auto no-scrollbar w-full h-[200px]">
+            <div
+              id="focus"
+              className="overflow-y-auto no-scrollbar w-full flex-1"
+            >
               {locations.map((location) => (
                 <div
                   onMouseEnter={() =>
