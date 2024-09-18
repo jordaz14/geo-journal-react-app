@@ -19,13 +19,14 @@ const app = express();
 dotenv.config();
 const clientUrl = "http://localhost:5173";
 
-const app = express();
-
+/* 3RD-PARTY MIDDLEWARE */
 app.use(express.json());
 app.use(cors({ origin: clientUrl, credentials: true }));
 app.use(cookieParser());
 
+/* HANDLE LOCATION CREATION */
 app.post("/create-location", async (req: Request, res: Response) => {
+  // Receive UUID from client
   const { locationId } = req.body;
 
   insertLocationId(locationId);
@@ -33,19 +34,21 @@ app.post("/create-location", async (req: Request, res: Response) => {
   res.send({ message: "A new location was created!", locationId: locationId });
 });
 
+/* HANDLE LOCATION DISPLAY */
 app.get("/location/:locationId", async (req: Request, res: Response) => {
   const { locationId } = req.params;
 
+  // Check if location exists
   const locationIdData = (await getLocationId(locationId)) as any[];
-
   if (locationIdData.length == 0) {
     return res.send({ isLocation: false });
   }
 
+  // If exists, get location id
   const locationTableId = locationIdData[0].id;
 
+  // Check if location entries exist
   const locationEntries = (await getEntry(locationTableId)) as any[];
-
   if (locationEntries.length == 0) {
     return res.send({ isLocation: true, isEntry: false });
   }
@@ -53,45 +56,50 @@ app.get("/location/:locationId", async (req: Request, res: Response) => {
   res.send({ isLocation: true, isEntry: true, entry: locationEntries });
 });
 
+/* HANDLE USER REGISTRATION */
 app.post("/register", async (req: Request, res: Response) => {
   const { username, email, password, confirmPassword } = req.body;
 
-  // Server-side validation
+  // VALIDATE INPUTS ON SERVER-SIDE
+  // Check all inputs fulfilled
   if (!username || !email || !password || !confirmPassword) {
     res.send({ message: "Invalid username or password" });
     return;
   }
 
+  // Check for matching passwords
   if (password != confirmPassword) {
     res.send({ message: "Passwords do not match" });
     return;
   }
 
+  // Check for unique username
   const userDataByUsername = await getUser("username", username);
   if (userDataByUsername?.length != 0) {
     res.send({ message: "Username already exists." });
     return;
   }
 
+  // Check for unique email
   const userDataByEmail = await getUser("email", email);
   if (userDataByEmail?.length != 0) {
     res.send({ message: "Email already exists." });
     return;
   }
 
-  // Password hashing
+  // CREATE THE ACCOUNT
+  // Hash submitted password
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-  // Insert user into database
+  // Insert submitted user into database
   insertUser(username, email, hashedPassword);
 
   res.send({ message: "Account Created! Click here to login" });
 });
 
+/* HANDLE USER AUTH (INITIAL CLIENT LOAD) */
 app.get("/auth", authenticateJWT, (req, res) => {
-  console.log("Received auth-status request");
-
   if (req.user) {
     res.json({ authenticated: true, user: req.user });
   } else {
@@ -99,22 +107,28 @@ app.get("/auth", authenticateJWT, (req, res) => {
   }
 });
 
+/* HANDLE USER LOGIN */
 app.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
+  //TO DO: Login Server-Side Validation
+
+  // Get user data for user submitted email
   const userData = (await getUser("email", email)) as any[];
 
+  // Check if user exists, return if not
   if (userData?.length == 0) {
     res.send({ message: "Incorrect email or password." });
     return;
   }
 
+  // Check if user submitted password matches hashed password
   const isPasswordMatch = await bcrypt.compare(password, userData[0].password);
 
   if (isPasswordMatch) {
     const token = generateToken(email);
-    console.log("Login token", token);
 
+    // Create http cookie with 1hr expiration
     res.cookie("token", token),
       {
         httpOnly: true,
@@ -123,6 +137,7 @@ app.post("/login", async (req: Request, res: Response) => {
         maxAge: 3600000,
       };
 
+    // Decode token to send user email, init time, and exp time
     const decoded = jwt.verify(token, JWT_SECRET);
 
     return res.send({
@@ -130,7 +145,9 @@ app.post("/login", async (req: Request, res: Response) => {
       isLoggedIn: true,
       user: decoded,
     });
-  } else {
+  }
+  // Catch if passwords do not match
+  else {
     return res.send({
       message: "Incorrect email or password.",
       isLoggedIn: false,
@@ -138,8 +155,9 @@ app.post("/login", async (req: Request, res: Response) => {
   }
 });
 
+/* HANDLE USER LOGOUT */
 app.post("/logout", (req: Request, res: Response) => {
-  console.log("Attempting logout");
+  // Clear http cookie
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
