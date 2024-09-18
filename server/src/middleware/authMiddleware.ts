@@ -6,13 +6,14 @@ dotenv.config();
 
 const JWT_SECRET: string = process.env.JWT_SECRET as string;
 
+// HANDLES AUTHENTICATION OF JWT FROM HTTP COOKIE
 export const authenticateJWT = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  // Get token from http cookie
   const token = req.cookies.token;
-  console.log("Auth token:", token);
 
   if (!token) {
     console.log("No token");
@@ -20,16 +21,17 @@ export const authenticateJWT = (
     return next();
   }
 
+  // If token...
   try {
+    // Verify token is valid & active
     const decoded = jwt.verify(token, JWT_SECRET);
-    console.log(decoded);
 
+    // Add user prop to request with email, init date, and exp date
     req.user = decoded;
 
     next();
   } catch (error) {
     console.log("Invalid or expired token");
-
     req.user = null;
     next();
   }
