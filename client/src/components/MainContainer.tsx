@@ -5,7 +5,7 @@ interface MainContainerProps {
   children: ReactNode;
 }
 
-function MainContainer({ children }: MainContainerProps) {
+const MainContainer = ({ children }: MainContainerProps) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -16,6 +16,6 @@ function MainContainer({ children }: MainContainerProps) {
       {children}
     </motion.div>
   );
-}
+};
 
 export default MainContainer;

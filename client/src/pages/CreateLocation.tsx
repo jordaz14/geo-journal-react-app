@@ -4,7 +4,7 @@ import { postData } from "../utils/fetch";
 import { QRCodeCanvas } from "qrcode.react";
 import { useEffect, useState, useRef } from "react";
 
-function CreateLocation() {
+const CreateLocation = () => {
   const [isLoading, setLoading] = useState(true);
   const [qrValue, setQRValue] = useState("https://example.org/");
   const canvasRef = useRef(null);
@@ -73,6 +73,6 @@ function CreateLocation() {
       </MainContainer>
     </>
   );
-}
+};
 
 export default CreateLocation;

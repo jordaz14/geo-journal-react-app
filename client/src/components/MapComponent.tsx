@@ -1,7 +1,7 @@
 import { TileLayer, useMap, Marker } from "react-leaflet";
 import { useEffect } from "react";
 
-function MapComponent({ coords }: { coords: { lat: number; lng: number } }) {
+const MapComponent = ({ coords }: { coords: { lat: number; lng: number } }) => {
   const map = useMap();
 
   useEffect(() => {
@@ -19,6 +19,6 @@ function MapComponent({ coords }: { coords: { lat: number; lng: number } }) {
       <Marker position={[coords.lat, coords.lng]} />
     </>
   );
-}
+};
 
 export default MapComponent;

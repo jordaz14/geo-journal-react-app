@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
-function NavBar() {
+const NavBar = () => {
   const { user } = useContext(AuthContext);
 
   return (
@@ -34,6 +34,6 @@ function NavBar() {
       </div>
     </nav>
   );
-}
+};
 
 export default NavBar;

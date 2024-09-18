@@ -8,7 +8,7 @@ import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { serverUrl, postData, fetchData } from "../utils/fetch";
 
-function ViewLocation() {
+const ViewLocation = () => {
   const { locationId } = useParams();
   const [isLoadingLocation, setLoadingLocation] = useState(true);
   const [isLoadingMap, setLoadingMap] = useState(true);
@@ -162,6 +162,6 @@ function ViewLocation() {
       </MainContainer>
     </>
   );
-}
+};
 
 export default ViewLocation;

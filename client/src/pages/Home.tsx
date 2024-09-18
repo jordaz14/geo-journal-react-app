@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import icon from "../assets/pin.png";
 import bg from "../assets/map.png";
 
-function Home() {
+const Home = () => {
   return (
     <>
       <NavBar></NavBar>
@@ -28,6 +28,6 @@ function Home() {
       </MainContainer>
     </>
   );
-}
+};
 
 export default Home;

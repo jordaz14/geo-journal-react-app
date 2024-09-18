@@ -8,7 +8,7 @@ import Account from "./pages/Account";
 import { AuthContext } from "./context/AuthContext";
 import { useContext } from "react";
 
-function App() {
+const App = () => {
   interface AuthContextType {
     user: string | null;
     login: (username: string, password: string) => Promise<void>;
@@ -29,6 +29,6 @@ function App() {
       <Route path="/account" element={<Account />}></Route>
     </Routes>
   );
-}
+};
 
 export default App;

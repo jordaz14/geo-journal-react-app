@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
-function Account() {
+const Account = () => {
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -26,6 +26,6 @@ function Account() {
       </MainContainer>
     </>
   );
-}
+};
 
 export default Account;

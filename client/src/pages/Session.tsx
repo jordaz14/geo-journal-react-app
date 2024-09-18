@@ -4,7 +4,7 @@ import LogInForm from "../components/LogInForm";
 import RegisterForm from "../components/RegisterForm";
 import { useState } from "react";
 
-function Session() {
+const Session = () => {
   const [isUser, setUser] = useState(true);
 
   return (
@@ -25,6 +25,6 @@ function Session() {
       </MainContainer>
     </>
   );
-}
+};
 
 export default Session;

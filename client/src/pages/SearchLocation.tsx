@@ -7,7 +7,7 @@ import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
-function SearchLocation() {
+const SearchLocation = () => {
   const [coords, setCoords] = useState({ lat: 40.6875646, lng: -73.9940103 });
   const { user } = useContext(AuthContext);
 
@@ -106,6 +106,6 @@ function SearchLocation() {
       </MainContainer>
     </>
   );
-}
+};
 
 export default SearchLocation;
