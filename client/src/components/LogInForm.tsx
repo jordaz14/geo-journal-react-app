@@ -1,46 +1,52 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 
-function LogInForm({ isUser, setUser }) {
+const LogInForm = ({ setUser }) => {
+  const { login } = useContext(AuthContext);
+  const [FormNotify, setFormNotify] = useState("");
+  const [isPasswordVisible, setShowPasswordVisible] = useState(false);
   const [FormData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [FormNotify, setFormNotify] = useState("");
-  const [isPasswordVisible, setShowPasswordVisible] = useState(false);
-  const { login } = useContext(AuthContext);
 
-  const handleSubmit = async (e) => {
-    console.log("begin form submission");
-    e.preventDefault();
+  // HANDLE LOGIN SUBMISSIONS
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setFormNotify("");
 
-    if (!validateClientSide) {
+    // Check if valid input
+    if (!validateClientSideInput) {
       return;
     }
 
-    console.log("await login");
+    // Logout user with AuthContext login
     await login(FormData);
 
+    // Clear form data
     setFormData({ email: "", password: "" });
-  };
+  }
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  // HANdLE LOGIN INPUT CHANGES
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
 
+    // Update form state
     setFormData({
       ...FormData,
       [name]: value,
     });
-  };
+  }
 
-  const validateClientSide = () => {
+  // VALIDATES INPUT
+  function validateClientSideInput() {
+    //Check all inputs fulfilled
     if (FormData.email.length < 1 || FormData.password.length < 1) {
       setFormNotify("Invalid email or password");
       return true;
     }
-  };
+  }
 
   return (
     <>
