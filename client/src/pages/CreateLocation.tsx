@@ -3,42 +3,57 @@ import MainContainer from "../components/MainContainer";
 import { postData } from "../utils/fetch";
 import { QRCodeCanvas } from "qrcode.react";
 import { useEffect, useState, useRef } from "react";
+import { serverUrl, clientUrl } from "../utils/fetch";
 
 const CreateLocation = () => {
   const [isLoading, setLoading] = useState(true);
-  const [qrValue, setQRValue] = useState("https://example.org/");
+  const [qrValue, setQRValue] = useState("");
   const canvasRef = useRef(null);
 
-  function downloadQRCode() {
-    const canvas = canvasRef.current.querySelector("canvas");
-    const image = canvas.toDataURL("image/png");
-    const link = document.createElement("a");
-    link.href = image;
-    link.download = "qrcode.png";
-    link.click();
-  }
+  // CREATE INITIAL LOCATION ON LOAD
+  useEffect(() => {
+    createLocation();
+  }, []);
 
+  // HANDLES URL LOCATION CREATION
   function createLocation() {
-    const createUrl: string = "http://localhost:5000/create-location";
-
+    // Generate random id
     const locationId = crypto.randomUUID();
 
-    postData(createUrl, { locationId: locationId }).then((response) => {
-      console.log(response);
-      setLoading(false);
-      const locationUrl: string = `http://localhost:5173/location/${response.locationId}`;
-      setQRValue(locationUrl);
-    });
+    // Post random id to create location & receive processed id
+    postData(`${serverUrl}/create-location`, { locationId: locationId }).then(
+      (response) => {
+        console.log(response);
+
+        setLoading(false);
+
+        // Create location url & append to qr code
+        const locationUrl: string = `${clientUrl}/location/${response.locationId}`;
+        setQRValue(locationUrl);
+      }
+    );
   }
 
+  // CREATE NEW QR CODE ON REFRESH
   function handleRefresh() {
     setLoading(true);
     createLocation();
   }
 
-  useEffect(() => {
-    createLocation();
-  }, []);
+  // DOWNLOAD QR CODE FOR PRINTING
+  function downloadQRCode() {
+    // Reference QR Canvas element
+    const canvas = canvasRef.current.querySelector("canvas");
+
+    // Convert canvas to image
+    const image = canvas.toDataURL("image/png");
+
+    // Create link, reference image to link, and click
+    const link = document.createElement("a");
+    link.href = image;
+    link.download = "qrcode.png";
+    link.click();
+  }
 
   return (
     <>
