@@ -11,7 +11,7 @@ const MainContainer = ({ children }: MainContainerProps) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="flex-1 flex flex-col justify-center items-center relative"
+      className="flex-1 flex flex-col justify-center items-center relative h-[calc(100vh-48px)]"
     >
       {children}
     </motion.div>
