@@ -147,12 +147,44 @@ app.post("/logout", (req: Request, res: Response) => {
   res.send({ message: "Logged Out" });
 });
 
+/* HANDLE USER ENTRY CREATION */
 app.post(
-  "/create-entry",
+  "/entry/:locationId",
   authenticateJWT,
   async (req: Request, res: Response) => {
-    console.log(req.body);
-    console.log(req.user);
+    const { locationId } = req.params;
+    const { coords, formData } = req.body;
+
+    // Check if user is logged in
+    if (req.user) {
+      // Get foreign key id for user
+      const userDataByEmail = (await getUser("email", req.user.email)) as any[];
+      const userId = userDataByEmail[0].id;
+
+      // Get foreign key id for location
+      const locationIdData = (await getLocationId(locationId)) as any[];
+      const locationTableId = locationIdData[0].id;
+
+      // Add to 'entry' table
+      insertEntry(userId, locationTableId, formData.message);
+
+      res.send({ message: "User entry added" });
+    }
+    // If not, handle as a guest
+    else {
+      // Get foreign key id for guest
+      const userDataByUsername = (await getUser("username", "guest")) as any[];
+      const userId = userDataByUsername[0].id;
+
+      // Get foreign key id for location
+      const locationIdData = (await getLocationId(locationId)) as any[];
+      const locationTableId = locationIdData[0].id;
+
+      // Add to 'entry' table
+      insertEntry(userId, locationTableId, formData.message);
+
+      res.send({ message: "Guest entry added" });
+    }
   }
 );
 
