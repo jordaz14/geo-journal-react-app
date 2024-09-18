@@ -12,14 +12,16 @@ const Session = () => {
       <NavBar></NavBar>
       <MainContainer>
         {isUser ? (
+          /* If user, render login */
           <>
             <h1 className="text-4xl font-bold">welcome back</h1>
-            <LogInForm isUser={isUser} setUser={() => setUser(false)} />
+            <LogInForm setUser={() => setUser(false)} />
           </>
         ) : (
+          /* If guest, render registration */
           <>
             <h1 className="text-4xl font-bold">welcome</h1>
-            <RegisterForm isUser={isUser} setUser={() => setUser(true)} />
+            <RegisterForm setUser={() => setUser(true)} />
           </>
         )}
       </MainContainer>
