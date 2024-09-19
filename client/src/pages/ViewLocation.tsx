@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { serverUrl, postData, fetchData } from "../utils/fetch";
+import { EntryResponse, LocationResponse } from "../types/types";
 
 const ViewLocation = () => {
   const { locationId } = useParams();
@@ -14,25 +15,36 @@ const ViewLocation = () => {
   const [isLoadingMap, setLoadingMap] = useState(true);
   const [isLocation, setLocation] = useState(false);
   const [isEntry, setEntry] = useState(false);
+  const [entryList, setEntryList] = useState([{}]);
   const [coords, setCoords] = useState<{
     lat: null | number;
     lng: null | number;
   }>({ lat: null, lng: null });
   const [formData, setFormData] = useState({ message: "" });
 
+  // HANDLE LOCATION RENDERING ON INITIAL LOAD
   useEffect(() => {
-    fetchData(`${serverUrl}/location/${locationId}`).then((response) => {
-      console.log(response);
-      setLoadingLocation(false);
-      if (response.isLocation) {
-        setLocation(true);
-        if (response.isEntry) {
-          setEntry(true);
-        } else {
-          getCoords();
+    fetchData(`${serverUrl}/location/${locationId}`).then(
+      (response: LocationResponse) => {
+        console.log(response);
+        setLoadingLocation(false);
+
+        if (response.isLocation) {
+          setLocation(true);
+          if (response.isEntry) {
+            // If location & entry, render 'entry' page
+            setEntryList(response.entry);
+            setEntry(true);
+          }
+          // If location & no entry, render 'first entry' page & ask user for coords
+          else {
+            getCoords();
+          }
         }
+
+        // If no location, render 'you got lost' page
       }
-    });
+    );
   }, [locationId]);
 
   // HANDLE ENTRY SUBMISSIONS
@@ -42,10 +54,19 @@ const ViewLocation = () => {
     postData(`${serverUrl}/entry/${locationId}`, {
       coords,
       formData,
-    }).then((response) => {
-      console.log("this is executing");
-      console.log(response);
-      setEntry(true);
+    }).then((entryResponse: EntryResponse) => {
+      console.log(entryResponse);
+
+      fetchData(`${serverUrl}/location/${locationId}`).then(
+        (locationResponse: LocationResponse) => {
+          if (locationResponse.isEntry) {
+            // If location & entry, render 'entry' page
+            setEntryList(locationResponse.entry);
+            setEntry(true);
+            setFormData({ message: "" });
+          }
+        }
+      );
     });
   }
 
@@ -80,12 +101,33 @@ const ViewLocation = () => {
         {!isLoadingLocation ? (
           isLocation ? (
             <VerticalContainer>
-              <div
-                id="feed"
-                className=" w-full flex-1 flex flex-col mb-4 items-center justify-center"
-              >
+              <div id="feed" className="w-full flex-1 flex flex-col mb-4">
                 {isEntry ? (
-                  <h1>Entries</h1>
+                  <>
+                    {entryList.map((entry, index) => {
+                      if (index == 0) {
+                        return (
+                          <div key={index} className="mb-6 w-full">
+                            <div className="w-full bg-primary-red p-4 text-white font-bold text-center rounded-md">
+                              {entry.message}
+                            </div>
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div key={index} className="mb-6 w-full">
+                            <div className="w-full flex justify-between px-4">
+                              <p className="font-bold">{entry.user.username}</p>
+                              <p>Delivered 2:20PM</p>
+                            </div>
+                            <div className="w-full bg-secondary-red p-4 border-2 border-solid border-tertiary-red rounded-md">
+                              {entry.message}
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
+                  </>
                 ) : (
                   <>
                     <h1 className="text-4xl font-bold text-center">
