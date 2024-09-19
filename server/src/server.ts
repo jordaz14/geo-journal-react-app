@@ -60,6 +60,20 @@ app.get("/location/:locationId", async (req: Request, res: Response) => {
   res.send({ isLocation: true, isEntry: true, entry: locationEntries });
 });
 
+/* RETURN LOCATIONS PERTAINING TO SPECIFIC USER */
+app.get(
+  "/user-location",
+  authenticateJWT,
+  async (req: Request, res: Response) => {
+    console.log(req.user);
+
+    const userDataByEmail = (await getUser("email", req.user.email)) as any[];
+    const userId = userDataByEmail[0].id;
+
+    
+  }
+);
+
 /* HANDLE USER REGISTRATION */
 app.post("/register", async (req: Request, res: Response) => {
   const { username, email, password, confirmPassword } = req.body;
