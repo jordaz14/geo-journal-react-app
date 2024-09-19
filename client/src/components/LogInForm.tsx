@@ -1,11 +1,13 @@
 import React, { useState, useContext } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const LogInForm = ({ setUser }) => {
   const { login } = useContext(AuthContext);
-  const [FormNotify, setFormNotify] = useState("");
+  const [formNotify, setFormNotify] = useState("");
   const [isPasswordVisible, setShowPasswordVisible] = useState(false);
+  const navigate = useNavigate();
   const [FormData, setFormData] = useState({
     email: "",
     password: "",
@@ -17,12 +19,21 @@ const LogInForm = ({ setUser }) => {
     setFormNotify("");
 
     // Check if valid input
-    if (!validateClientSideInput) {
+    if (!validateClientSideInput()) {
       return;
     }
 
-    // Logout user with AuthContext login
-    await login(FormData);
+    // Get response from AuthContext login
+    const { response } = await login(FormData);
+
+    // Redirect if successful
+    if (response.isLoggedIn) {
+      navigate("/account");
+    }
+    // If not successful, notify user of result
+    else {
+      setFormNotify(response.message);
+    }
 
     // Clear form data
     setFormData({ email: "", password: "" });
@@ -44,8 +55,10 @@ const LogInForm = ({ setUser }) => {
     //Check all inputs fulfilled
     if (FormData.email.length < 1 || FormData.password.length < 1) {
       setFormNotify("Invalid email or password");
-      return true;
+      return false;
     }
+
+    return true;
   }
 
   return (
@@ -96,7 +109,7 @@ const LogInForm = ({ setUser }) => {
         </p>
       </form>
       <p className="text-center font-bold text-primary-red mt-2">
-        &nbsp;{FormNotify}&nbsp;
+        &nbsp;{formNotify}&nbsp;
       </p>
     </>
   );
