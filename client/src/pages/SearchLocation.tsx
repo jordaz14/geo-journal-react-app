@@ -4,8 +4,9 @@ import VerticalContainer from "../components/VerticalContainer";
 import MapComponent from "../components/MapComponent";
 import { AuthContext } from "../context/AuthContext";
 import { MapContainer } from "react-leaflet";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { fetchData, serverUrl } from "../utils/fetch";
 
 const SearchLocation = () => {
   const [coords, setCoords] = useState({ lat: 40.6875646, lng: -73.9940103 });
@@ -37,6 +38,12 @@ const SearchLocation = () => {
       isOwner: true,
     },
   ];
+
+  useEffect(() => {
+    fetchData(`${serverUrl}/user-location`).then((response) =>
+      console.log(response)
+    );
+  }, []);
 
   return (
     <>
@@ -100,7 +107,7 @@ const SearchLocation = () => {
             </p>
             <Link
               to="/session"
-              className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm mt-4"
+              className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm mt-4 font-bold"
             >
               log in
             </Link>
