@@ -35,12 +35,7 @@ const ViewLocation = () => {
     });
   }, [locationId]);
 
-  function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-    const { value } = event.target;
-    setFormData({ message: value });
-    console.log(formData.message);
-  }
-
+  // HANDLE ENTRY SUBMISSIONS
   function formSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -54,6 +49,13 @@ const ViewLocation = () => {
     });
   }
 
+  function handleInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    const { value } = event.target;
+    setFormData({ message: value });
+    console.log(formData.message);
+  }
+
+  // GET USER COORDS IF INITIAL LOCATION ENTRY
   function getCoords() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -139,7 +141,7 @@ const ViewLocation = () => {
                   id="message"
                   name="message"
                   value={formData.message}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   className="w-full h-[100px] rounded-md p-2 border border-solid border-secondary-gray resize-none"
                 />
                 <button className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-full mt-4">
