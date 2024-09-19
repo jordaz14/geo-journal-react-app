@@ -6,8 +6,10 @@ import * as dotenv from "dotenv";
 import {
   getEntry,
   getLocationId,
+  getOneEntry,
   getUser,
   insertEntry,
+  updateLocationCoords,
   insertLocationId,
   insertUser,
 } from "./utils/supabase";
@@ -208,6 +210,7 @@ app.post(
     }
 
     if (req.user) {
+      // Check if user is logged in
       // Get foreign key id for user
       const userDataByEmail = (await getUser("email", req.user.email)) as any[];
       const userId = userDataByEmail[0].id;
