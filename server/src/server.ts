@@ -220,7 +220,7 @@ app.post(
     // If not, handle as a guest
     else {
       // Get foreign key id for guest
-      const userDataByUsername = (await getUser("username", "guest")) as any[];
+      const userDataByUsername = (await getUser("username", "Guest")) as any[];
       const userId = userDataByUsername[0].id;
 
       // Add to 'entry' table
