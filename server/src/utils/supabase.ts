@@ -48,6 +48,13 @@ export const getLocationId = async (locationId: string) => {
   }
 };
 
+export const getUniqueLocations = async (userId: number) => {
+  const { data, error } = await supabase
+    .from("entries")
+    .select("*")
+    .eq("user_id", userId);
+};
+
 export const insertUser = async (
   username: string,
   email: string,
