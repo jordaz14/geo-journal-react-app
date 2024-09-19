@@ -1,4 +1,4 @@
-// Req Payload Types
+// Response Types
 type User = any;
 
 export interface AuthResponse {
@@ -8,10 +8,23 @@ export interface AuthResponse {
 
 export interface LoginResponse {
   message: string;
+  isLoggedIn: boolean;
+  user: User;
 }
 
 export interface RegisterResponse {
   message: string;
+  isRegistered: boolean;
 }
 
-// Res Payload Types
+type entry = [{}];
+
+export interface LocationResponse {
+  isLocation: boolean;
+  isEntry: boolean;
+  entry: entry;
+}
+
+export interface EntryResponse {
+  message: string;
+}
