@@ -24,6 +24,10 @@ app.use(express.json());
 app.use(cors({ origin: clientUrl, credentials: true }));
 app.use(cookieParser());
 
+app.get("/test", (req: Request, res: Response) => {
+  res.send({ message: "Test Response" });
+});
+
 /* HANDLE LOCATION CREATION */
 app.post("/create-location", async (req: Request, res: Response) => {
   // Receive UUID from client
