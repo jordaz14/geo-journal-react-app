@@ -19,6 +19,22 @@ export const insertLocationId = async (locationId: string) => {
   }
 };
 
+export const updateLocationCoords = async (
+  locationTableId: number,
+  coords: { lat: number | null; lng: number | null }
+) => {
+  const { data, error } = await supabase
+    .from("location_ids")
+    .update({ location_lat: coords.lat, location_lng: coords.lng })
+    .eq("id", locationTableId);
+
+  if (error) {
+    console.error(error);
+  } else {
+    console.log("Location Coords Inserted");
+  }
+};
+
 export const getLocationId = async (locationId: string) => {
   const { data, error } = await supabase
     .from("location_ids")
