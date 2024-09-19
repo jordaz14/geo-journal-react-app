@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { serverUrl, fetchData, postData } from "../utils/fetch";
 import { useNavigate } from "react-router-dom";
-import { AuthResponse } from "../types/types";
+import { AuthResponse, LoginResponse } from "../types/types";
 
 interface AuthContextType {
   user: string | null;
@@ -33,19 +33,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // HANDLE USER LOGIN
   const login = async (formData: any) => {
-    console.log("Attempting login");
+    const response: LoginResponse = await postData(
+      `${serverUrl}/login`,
+      formData
+    );
 
-    postData(`${serverUrl}/login`, formData).then((response) => {
-      console.log(response);
+    // If logged in, populate user data & return response
+    if (response.isLoggedIn) {
+      setUser(response.user);
+      return { response };
+      //navigate("/account");
+    }
 
-      // If logged in, populate user data & redirect to /account
-      if (response.isLoggedIn) {
-        setUser(response.user);
-        navigate("/account");
-      }
-
-      return response;
-    });
+    // Else, return response
+    return { response };
   };
 
   // HANDLE USER LOGOUT
