@@ -87,7 +87,24 @@ export const insertEntry = async (
 export const getEntry = async (locationTableId: number) => {
   const { data, error } = await supabase
     .from("entries")
+    .select(
+      "created_at, user:users (username), message, location:location_ids (location_lat, location_lng)"
+    )
+    .eq("location_id", locationTableId);
+
+  if (error) {
+    console.error();
+  } else {
+    return data;
+  }
+};
+
+/* GET ENTRY FOR ONE LOCATION FOR ENTRY VALIDATION */
+export const getOneEntry = async (locationTableId: number) => {
+  const { data, error } = await supabase
+    .from("entries")
     .select("*")
+    .limit(1)
     .eq("location_id", locationTableId);
 
   if (error) {
