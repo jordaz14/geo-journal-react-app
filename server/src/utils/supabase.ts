@@ -72,9 +72,11 @@ export const insertEntry = async (
   locationId: string,
   message: string
 ) => {
-  const { data, error } = await supabase
-    .from("entries")
-    .insert({ user_id: userId, location_id: locationId, message: message });
+  const { data, error } = await supabase.from("entries").insert({
+    user_id: userId,
+    location_id: locationId,
+    message: message,
+  });
 
   if (error) {
     console.error();
