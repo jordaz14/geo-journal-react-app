@@ -197,15 +197,20 @@ app.post(
 
     //TO DO: validate form input
 
-    // Check if user is logged in
+    // Get foreign key id for location
+    const locationIdData = (await getLocationId(locationId)) as any[];
+    const locationTableId = locationIdData[0].id;
+
+    // If first entry, update coords for location
+    const oneEntryData = await getOneEntry(locationTableId);
+    if (oneEntryData?.length == 0) {
+      updateLocationCoords(locationTableId, coords);
+    }
+
     if (req.user) {
       // Get foreign key id for user
       const userDataByEmail = (await getUser("email", req.user.email)) as any[];
       const userId = userDataByEmail[0].id;
-
-      // Get foreign key id for location
-      const locationIdData = (await getLocationId(locationId)) as any[];
-      const locationTableId = locationIdData[0].id;
 
       // Add to 'entry' table
       insertEntry(userId, locationTableId, formData.message);
@@ -217,10 +222,6 @@ app.post(
       // Get foreign key id for guest
       const userDataByUsername = (await getUser("username", "guest")) as any[];
       const userId = userDataByUsername[0].id;
-
-      // Get foreign key id for location
-      const locationIdData = (await getLocationId(locationId)) as any[];
-      const locationTableId = locationIdData[0].id;
 
       // Add to 'entry' table
       insertEntry(userId, locationTableId, formData.message);
