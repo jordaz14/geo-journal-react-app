@@ -118,7 +118,7 @@ const ViewLocation = () => {
                           <div key={index} className="mb-6 w-full">
                             <div className="w-full flex justify-between px-4">
                               <p className="font-bold">{entry.user.username}</p>
-                              <p>Delivered 2:20PM</p>
+                              <p>Delivered: </p>
                             </div>
                             <div className="w-full bg-secondary-red p-4 border-2 border-solid border-tertiary-red rounded-md">
                               {entry.message}
