@@ -1,0 +1,14 @@
+for a user that you take as input
+
+you want to find:
+all of the locations associated with that user
+
+and then for each of those locations:
+you want to find all of the events associated with that location
+
+
+SELECT b.*
+FROM entries a
+WHERE user_id = {input_id}
+JOIN entries b
+ON b.location_id = a.location_id
