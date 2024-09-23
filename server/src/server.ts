@@ -9,9 +9,11 @@ import {
   getOneEntry,
   getUser,
   insertEntry,
-  updateLocationCoords,
   insertLocationId,
   insertUser,
+  getUniqueLocations,
+  updateLocationCoords,
+  updateLocationOwner,
 } from "./utils/supabase";
 import { authenticateJWT } from "./middleware/authMiddleware";
 import { generateToken, JWT_SECRET } from "./utils/jwt";
@@ -22,9 +24,9 @@ dotenv.config();
 const clientUrl = "http://localhost:5173";
 
 /* 3RD-PARTY MIDDLEWARE */
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors({ origin: clientUrl, credentials: true }));
-app.use(cookieParser());
 
 app.get("/test", (req: Request, res: Response) => {
   res.send({ message: "Test Response" });
@@ -72,7 +74,8 @@ app.get(
     const userDataByEmail = (await getUser("email", req.user.email)) as any[];
     const userId = userDataByEmail[0].id;
 
-    
+    const uniqueLocationsByUser = (await getUniqueLocations(userId)) as any[];
+    console.log(uniqueLocationsByUser);
   }
 );
 
@@ -195,9 +198,13 @@ app.post(
   authenticateJWT,
   async (req: Request, res: Response) => {
     const { locationId } = req.params;
-    const { coords, formData } = req.body;
+    const { date, coords, formData } = req.body;
+    let userId = null;
 
-    //TO DO: validate form input
+    console.log(date);
+
+    // TO DO: Validate form input
+    // TO DO: Handle foreign key ids in location_ids table to insert the entry id for the first & latest entry for a given location
 
     // Get foreign key id for location
     const locationIdData = (await getLocationId(locationId)) as any[];
@@ -207,16 +214,18 @@ app.post(
     const oneEntryData = await getOneEntry(locationTableId);
     if (oneEntryData?.length == 0) {
       updateLocationCoords(locationTableId, coords);
+      //updateLocationDateOnFirstEntry(locationTableId, date);
     }
 
     if (req.user) {
       // Check if user is logged in
       // Get foreign key id for user
       const userDataByEmail = (await getUser("email", req.user.email)) as any[];
-      const userId = userDataByEmail[0].id;
+      userId = userDataByEmail[0].id;
 
       // Add to 'entry' table
       insertEntry(userId, locationTableId, formData.message);
+      //updateLocationDateOnEntry(locationTableId, date);
 
       res.send({ message: "User entry added" });
     }
@@ -224,12 +233,17 @@ app.post(
     else {
       // Get foreign key id for guest
       const userDataByUsername = (await getUser("username", "Guest")) as any[];
-      const userId = userDataByUsername[0].id;
+      userId = userDataByUsername[0].id;
 
       // Add to 'entry' table
       insertEntry(userId, locationTableId, formData.message);
+      //updateLocationDateOnEntry(locationTableId, date);
 
       res.send({ message: "Guest entry added" });
+    }
+
+    if (oneEntryData?.length == 0) {
+      updateLocationOwner(locationTableId, userId);
     }
   }
 );
