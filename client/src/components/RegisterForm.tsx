@@ -5,6 +5,7 @@ import { RegisterResponse } from "../types/types";
 
 const RegisterForm = ({ setUser }) => {
   const [FormNotify, setFormNotify] = useState("");
+  const [isButtonLoading, setButtonLoading] = useState(false);
   const [isPasswordVisible, setShowPasswordVisible] = useState(false);
   const [FormData, setFormData] = useState({
     username: "",
@@ -17,9 +18,11 @@ const RegisterForm = ({ setUser }) => {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setFormNotify("");
+    setButtonLoading(true);
 
     // Check if valid input
     if (!validateClientSideInput()) {
+      setButtonLoading(false);
       return;
     }
 
@@ -32,6 +35,8 @@ const RegisterForm = ({ setUser }) => {
         } else {
           setFormNotify(response.message);
         }
+
+        setButtonLoading(false);
       }
     );
   }
@@ -133,8 +138,8 @@ const RegisterForm = ({ setUser }) => {
             {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
-        <button className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-full mt-4 font-bold">
-          register
+        <button className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-full mt-4 font-bold h-[40px] flex justify-center">
+          {isButtonLoading ? <div id="loader-white"></div> : <p>register</p>}
         </button>
         <p className="text-center mt-2">
           Have an account?&nbsp;

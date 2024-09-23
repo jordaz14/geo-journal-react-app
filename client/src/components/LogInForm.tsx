@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 const LogInForm = ({ setUser }) => {
   const { login } = useContext(AuthContext);
   const [formNotify, setFormNotify] = useState("");
+  const [isButtonLoading, setButtonLoading] = useState(false);
   const [isPasswordVisible, setShowPasswordVisible] = useState(false);
   const navigate = useNavigate();
   const [FormData, setFormData] = useState({
@@ -17,9 +18,11 @@ const LogInForm = ({ setUser }) => {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setFormNotify("");
+    setButtonLoading(true);
 
     // Check if valid input
     if (!validateClientSideInput()) {
+      setButtonLoading(false);
       return;
     }
 
@@ -36,6 +39,7 @@ const LogInForm = ({ setUser }) => {
     }
 
     // Clear form data
+    setButtonLoading(false);
     setFormData({ email: "", password: "" });
   }
 
@@ -97,8 +101,8 @@ const LogInForm = ({ setUser }) => {
             {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
-        <button className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-full mt-4 pr-4 font-bold">
-          log in
+        <button className="bg-primary-red text-white py-2 px-4 rounded-md shadow-sm w-full mt-4 pr-4 font-bold h-[40px] flex justify-center">
+          {isButtonLoading ? <div id="loader-white"></div> : <p>log in</p>}
         </button>
 
         <p className="text-center mt-2">
