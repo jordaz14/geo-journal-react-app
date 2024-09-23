@@ -35,6 +35,74 @@ export const updateLocationCoords = async (
   }
 };
 
+export const updateLocationOwner = async (
+  locationTableId: number,
+  userId: number
+) => {
+  const { data, error } = await supabase
+    .from("location_ids")
+    .update({ owner: userId })
+    .eq("id", locationTableId);
+
+  if (error) {
+    console.error(error);
+  } else {
+    console.log("Location Owner Updated");
+  }
+};
+
+export const updateLocationDateEntryIdOnFirstEntry = async (
+  locationTableId: number,
+  entryId: number
+) => {
+  const { data, error } = await supabase
+    .from("location_ids")
+    .update({
+      first_entry_id: entryId,
+      new_entry_id: entryId,
+    })
+    .eq("id", locationTableId);
+
+  if (error) {
+    console.error(error);
+  } else {
+    console.log("Location Date On First Entry Inserted");
+  }
+};
+
+export const updateLocationDateEntryIdOnEntry = async (
+  locationTableId: number,
+  entryId: number
+) => {
+  const { data, error } = await supabase
+    .from("location_ids")
+    .update({
+      new_entry_id: entryId,
+    })
+    .eq("id", locationTableId);
+
+  if (error) {
+    console.error(error);
+  } else {
+    console.log("Location Date on Entry Inserted");
+  }
+};
+
+export const getEntryId = async (locationTableId: number, userId: number) => {
+  const { data, error } = await supabase
+    .from("entries")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .eq("user_id", userId)
+    .eq("location_id", locationTableId);
+
+  if (error) {
+    console.error(error);
+  } else {
+    return data;
+  }
+};
+
 export const getLocationId = async (locationId: string) => {
   const { data, error } = await supabase
     .from("location_ids")
@@ -52,7 +120,14 @@ export const getUniqueLocations = async (userId: number) => {
   const { data, error } = await supabase
     .from("entries")
     .select("*")
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .limit(1);
+
+  if (error) {
+    console.error(error);
+  } else {
+    return data;
+  }
 };
 
 export const insertUser = async (
