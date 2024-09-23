@@ -1,13 +1,15 @@
 import NavBar from "../components/NavBar";
 import MainContainer from "../components/MainContainer";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const Account = () => {
   const { logout } = useContext(AuthContext);
+  const [isButtonLoading, setButtonLoading] = useState(false);
 
   // Logout user with AuthContext logout
   async function handleLogout() {
+    setButtonLoading(true);
     await logout();
   }
 
@@ -18,9 +20,9 @@ const Account = () => {
         <p>Welcome to your account!</p>
         <button
           onClick={handleLogout}
-          className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm mt-4 font-bold"
+          className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm mt-4 font-bold h-[40px] w-[100px] justify-center"
         >
-          log out
+          {isButtonLoading ? <div id="loader-white"></div> : <p>log out</p>}
         </button>
       </MainContainer>
     </>
