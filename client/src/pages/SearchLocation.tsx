@@ -13,9 +13,17 @@ const SearchLocation = () => {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    fetchData(`${serverUrl}/user-location`).then((response) =>
-      console.log(response)
-    );
+    if (user) {
+      fetchData(`${serverUrl}/user-location`).then((response) => {
+        const reversedLocationList = response.reverse();
+        setLocationList(reversedLocationList);
+        setCoords({
+          lat: reversedLocationList[0].location_lat,
+          lng: reversedLocationList[0].location_lng,
+        });
+        setLocationLoading(false);
+      });
+    }
   }, []);
 
   return (
