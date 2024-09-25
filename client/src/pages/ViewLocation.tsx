@@ -114,7 +114,12 @@ const ViewLocation = () => {
 
   function convertTime(time: string) {
     const date = new Date(time);
-    const localTime = date.toLocaleTimeString();
+    const options: Intl.DateTimeFormatOptions = {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    };
+    const localTime = date.toLocaleTimeString("en-US", options);
     return localTime;
   }
 
@@ -143,16 +148,12 @@ const ViewLocation = () => {
                         return;
                       } else {
                         return (
-                          <div
-                    
-                            key={index}
-                            className="mb-6 w-full"
-                          >
+                          <div key={index} className="mb-6 w-full">
                             <div className="w-full flex justify-between px-4">
                               <p className="font-bold">{entry.user.username}</p>
-                              <p>Delivered: {localTime}</p>
+                              <p>Delivered {localTime}</p>
                             </div>
-                            <div className="w-full bg-secondary-red p-4 rounded-md">
+                            <div className="w-full bg-secondary-red p-2 px-4 sm:p-4 rounded-md">
                               {entry.message}
                             </div>
                           </div>
