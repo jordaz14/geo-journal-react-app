@@ -46,7 +46,13 @@ const jwt_1 = require("./utils/jwt");
 var cookieParser = require("cookie-parser");
 const app = (0, express_1.default)();
 dotenv.config();
-const clientUrl = "http://localhost:5173";
+let clientUrl;
+if (process.env.NODE_ENV === "production") {
+    clientUrl = "https://nearhere.netlify.app";
+}
+else {
+    clientUrl = "http://localhost:5173";
+}
 /* 3RD-PARTY MIDDLEWARE */
 app.use(cookieParser());
 app.use(express_1.default.json());
