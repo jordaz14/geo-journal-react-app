@@ -38,47 +38,76 @@ const SearchLocation = () => {
             <p className="text-lg sm:text-xl text-center mt-2">
               see if any others have come along
             </p>
-            <div className="w-full min-h-[200px] max-h-[300px] p-2 bg-white my-4 flex flex-col justify-center rounded-md drop-shadow-md hover:drop-shadow-2xl transition duration-500 linear relative">
-              <MapContainer
-                center={[coords.lat as number, coords.lng as number]}
-                zoom={13}
-                className="w-full h-full bg-white"
-              >
-                <MapComponent coords={coords}></MapComponent>
-              </MapContainer>
-            </div>
-            <p className="text-xl text-center mb-4">
-              Your location is: {coords.lat} {coords.lng}
-            </p>
-            <div
-              id="focus"
-              className="overflow-y-auto no-scrollbar w-full flex-1"
-            >
-              {locations.map((location) => (
-                <div
-                  onMouseEnter={() =>
-                    setCoords({
-                      lat: location.coords.lat,
-                      lng: location.coords.lng,
-                    })
-                  }
-                  className="bg-white w-full p-4 rounded-md flex flex-col items-center mb-8 border border-solid border-secondary-gray hover:border-primary-gray transition duration-500 linear"
-                >
-                  <h2 className="text-xl text-center font-bold">
-                    {location.title}
-                  </h2>
-                  <hr className="border-solid border-secondary-gray w-full my-2" />
-                  <p>Updated: {location.updated}</p>
-                  <div className="bg-red-50 text-center rounded-md my-2 p-2 w-full">
-                    <p>{location.comment}</p>
-                  </div>
-                  <p>{location.activity}</p>
-                  <p className="mt-4">
-                    You're the owner of this location. Click here to delete.
-                  </p>
+            {!isLocationLoading ? (
+              <>
+                <div className="hidden sm:flex w-full min-h-[200px] max-h-[300px] p-2 bg-white my-4 flex-col justify-center rounded-md drop-shadow-md hover:drop-shadow-2xl transition duration-500 linear relative">
+                  <MapContainer
+                    center={[coords.lat as number, coords.lng as number]}
+                    zoom={13}
+                    className="w-full h-full bg-white"
+                  >
+                    <MapComponent coords={coords}></MapComponent>
+                  </MapContainer>
                 </div>
-              ))}
-            </div>
+                <p className="hidden sm:block text-xl text-center mb-4">
+                  Your location is: &nbsp;
+                  {coords.lat > 0 ? (
+                    <span>{coords.lat}°N</span>
+                  ) : (
+                    <span>{coords.lat}°S</span>
+                  )}
+                  , &nbsp;
+                  {coords.lng > 0 ? (
+                    <span>{coords.lng}°E</span>
+                  ) : (
+                    <span>{coords.lng}°W</span>
+                  )}
+                </p>
+                <div
+                  id="focus"
+                  className="overflow-y-auto no-scrollbar w-full flex-1"
+                >
+                  {locationList.map((location, index) => {
+                    const localTime = convertTime(location.fe_message_date);
+                    return (
+                      <Link
+                        to={`${clientUrl}/location/${location.location_param}`}
+                        key={index}
+                        onMouseEnter={() =>
+                          setCoords({
+                            lat: location.location_lat || 0,
+                            lng: location.location_lng || 0,
+                          })
+                        }
+                        className="bg-white w-full p-4 rounded-md flex flex-col items-center mb-8 border border-solid border-secondary-gray hover:border-primary-gray transition duration-500 linear"
+                      >
+                        <h2 className="text-xl text-center font-bold">
+                          {location.fe_message}
+                        </h2>
+                        <hr className="border-solid border-secondary-gray w-full my-2" />
+                        <p>Updated: {localTime}</p>
+                        <div className="bg-red-50 text-center rounded-md my-2 p-2 w-full">
+                          <p>{location.ne_message}</p>
+                        </div>
+                        <p>{location.activity}</p>
+                        <p>+{location.total_entry_count - 1} Comments</p>
+                        {location.owner_id ? (
+                          <p className="mt-4">
+                            You're the owner of this location.
+                          </p>
+                        ) : (
+                          <p></p>
+                        )}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </>
+            ) : (
+              <div className="w-full flex-1 flex flex-col justify-center items-center">
+                <div id="loader"></div>
+              </div>
+            )}
           </VerticalContainer>
         ) : (
           <>
