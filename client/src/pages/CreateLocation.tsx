@@ -4,6 +4,7 @@ import { postData } from "../utils/fetch";
 import { QRCodeCanvas } from "qrcode.react";
 import { useEffect, useState, useRef } from "react";
 import { serverUrl, clientUrl } from "../utils/fetch";
+import icon from "../assets/pin.png";
 
 const CreateLocation = () => {
   const [isLoading, setLoading] = useState(true);
@@ -70,7 +71,19 @@ const CreateLocation = () => {
           {isLoading ? (
             <div id="loader"></div>
           ) : (
-            <QRCodeCanvas value={qrValue} size={275}></QRCodeCanvas>
+            <QRCodeCanvas
+              value={qrValue}
+              size={250}
+              imageSettings={{
+                src: icon,
+                x: undefined,
+                y: undefined,
+                height: 60,
+                width: 60,
+                opacity: 1,
+                excavate: true,
+              }}
+            ></QRCodeCanvas>
           )}
         </div>
         <button
