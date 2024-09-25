@@ -75,8 +75,9 @@ app.get(
     const userDataByEmail = (await getUser("email", req.user.email)) as any[];
     const userId = userDataByEmail[0].id;
 
-    const uniqueLocationsByUser = (await getUniqueLocations(userId)) as any[];
-    console.log(uniqueLocationsByUser);
+    const userLocationData = (await getUserLocations(userId)) as any[];
+
+    res.send(userLocationData);
   }
 );
 
