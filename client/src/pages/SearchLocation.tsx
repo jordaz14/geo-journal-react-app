@@ -12,33 +12,6 @@ const SearchLocation = () => {
   const [coords, setCoords] = useState({ lat: 40.6875646, lng: -73.9940103 });
   const { user } = useContext(AuthContext);
 
-  const locations = [
-    {
-      title: "anybody care to share some thoughts?",
-      coords: { lat: 42.39, lng: -110.59 },
-      updated: "9/14/24",
-      comment: "this is my comment",
-      activity: "12 comments",
-      isOwner: true,
-    },
-    {
-      title: "another random post",
-      coords: { lat: 40.39, lng: -80.82 },
-      updated: "9/14/24",
-      comment: "this is my comment",
-      activity: "12 comments",
-      isOwner: true,
-    },
-    {
-      title: "another random post",
-      coords: { lat: 37.39, lng: -80.82 },
-      updated: "9/14/24",
-      comment: "this is my comment",
-      activity: "12 comments",
-      isOwner: true,
-    },
-  ];
-
   useEffect(() => {
     fetchData(`${serverUrl}/user-location`).then((response) =>
       console.log(response)
