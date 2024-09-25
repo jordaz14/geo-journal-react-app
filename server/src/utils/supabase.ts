@@ -32,19 +32,28 @@ export const getUserLocations = async (userId: number) => {
   }
 };
 
-export const updateLocationOwner = async (
+/* Update locations table to insert all data pertaining to first entry */
+export const updateFirstEntry = async (
   locationTableId: number,
-  userId: number
+  userId: number,
+  entryId: number,
+  coords: { lat: number | null; lng: number | null }
 ) => {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("location_ids")
-    .update({ owner: userId })
+    .update({
+      location_lat: coords.lat,
+      location_lng: coords.lng,
+      owner_id: userId,
+      first_entry_id: entryId,
+      new_entry_id: entryId,
+    })
     .eq("id", locationTableId);
 
   if (error) {
     console.error(error);
   } else {
-    console.log("Location Owner Updated");
+    console.log("First Entry Updated");
   }
 };
 
