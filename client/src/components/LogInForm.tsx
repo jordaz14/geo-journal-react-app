@@ -69,7 +69,7 @@ const LogInForm = ({ setUser }) => {
     <>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col bg-white rounded-md w-[500px] py-4 px-6 mt-4 drop-shadow-sm hover:drop-shadow-2xl transition duration-500 linear"
+        className="flex flex-col bg-white rounded-md w-full sm:w-[500px] py-4 px-6 mt-4 drop-shadow-sm hover:drop-shadow-2xl transition duration-500 linear"
       >
         <label htmlFor="email">Email</label>
         <input
