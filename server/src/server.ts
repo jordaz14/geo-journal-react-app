@@ -199,24 +199,17 @@ app.post(
   authenticateJWT,
   async (req: Request, res: Response) => {
     const { locationId } = req.params;
-    const { date, coords, formData } = req.body;
-    let userId = null;
+    const { coords, formData } = req.body;
 
-    console.log(date);
+    let userId = null;
+    let entryId = null;
 
     // TO DO: Validate form input
-    // TO DO: Handle foreign key ids in location_ids table to insert the entry id for the first & latest entry for a given location
+    // TO DO: Update location coords on first entry, owner id on first entry, first_entry_id on first entry, and new_entry_id on every entry
 
     // Get foreign key id for location
     const locationIdData = (await getLocationId(locationId)) as any[];
     const locationTableId = locationIdData[0].id;
-
-    // If first entry, update coords for location
-    const oneEntryData = await getOneEntry(locationTableId);
-    if (oneEntryData?.length == 0) {
-      updateLocationCoords(locationTableId, coords);
-      //updateLocationDateOnFirstEntry(locationTableId, date);
-    }
 
     if (req.user) {
       // Check if user is logged in
@@ -225,8 +218,13 @@ app.post(
       userId = userDataByEmail[0].id;
 
       // Add to 'entry' table
-      insertEntry(userId, locationTableId, formData.message);
-      //updateLocationDateOnEntry(locationTableId, date);
+      await insertEntry(userId, locationTableId, formData.message);
+
+      // Get entry id from recent entry
+      entryId = (await getEntryId(locationTableId, userId)) as any[];
+      entryId = entryId[0].entry_id;
+
+      await updateNewEntry(locationTableId, entryId);
 
       res.send({ message: "User entry added" });
     }
@@ -237,14 +235,23 @@ app.post(
       userId = userDataByUsername[0].id;
 
       // Add to 'entry' table
-      insertEntry(userId, locationTableId, formData.message);
-      //updateLocationDateOnEntry(locationTableId, date);
+      await insertEntry(userId, locationTableId, formData.message);
+
+      // Get entry id from recent entry
+      entryId = (await getEntryId(locationTableId, userId)) as any[];
+      entryId = entryId[0].entry_id;
+
+      await updateNewEntry(locationTableId, entryId);
 
       res.send({ message: "Guest entry added" });
     }
 
-    if (oneEntryData?.length == 0) {
-      updateLocationOwner(locationTableId, userId);
+    let firstEntryData = (await getFirstEntryId(locationTableId)) as any[];
+    let firstEntryId = firstEntryData[0].first_entry_id;
+
+    // If no first entry id
+    if (!firstEntryId) {
+      updateFirstEntry(locationTableId, userId, entryId, coords);
     }
   }
 );
