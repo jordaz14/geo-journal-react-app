@@ -46,7 +46,7 @@ const jwt_1 = require("./utils/jwt");
 var cookieParser = require("cookie-parser");
 const app = (0, express_1.default)();
 dotenv.config();
-let clientUrl = "https://nearhere.netlify.app/";
+let clientUrl = "https://nearhere.netlify.app";
 /* 3RD-PARTY MIDDLEWARE */
 app.use(cookieParser());
 app.use(express_1.default.json());
