@@ -17,7 +17,9 @@ const Account = () => {
     <>
       <NavBar></NavBar>
       <MainContainer>
-        <p>Welcome to your account!</p>
+        <p className="text-2xl sm:text-4xl font-bold text-center">
+          Welcome to your account!
+        </p>
         <button
           onClick={handleLogout}
           className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm mt-4 font-bold h-[40px] w-[100px] justify-center"
