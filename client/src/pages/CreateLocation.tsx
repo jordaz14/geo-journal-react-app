@@ -59,13 +59,13 @@ const CreateLocation = () => {
     <>
       <NavBar></NavBar>
       <MainContainer>
-        <h1 className="text-4xl font-bold">here's your new spot</h1>
-        <p className="text-xl text-center mt-2">
+        <h1 className="text-2xl sm:text-4xl font-bold">here's your new spot</h1>
+        <p className="text-lg sm:text-xl text-center mt-2">
           place it anywhere and say <br></br>something, anything!
         </p>
         <div
           ref={canvasRef}
-          className="bg-white h-80 w-80 my-4 rounded-md font-bold flex flex-col justify-center items-center drop-shadow-sm hover:drop-shadow-2xl transition duration-500 linear"
+          className="bg-white h-[275px] w-[275px] my-4 rounded-md font-bold flex flex-col justify-center items-center drop-shadow-sm hover:drop-shadow-2xl transition duration-500 linear"
         >
           {isLoading ? (
             <div id="loader"></div>
