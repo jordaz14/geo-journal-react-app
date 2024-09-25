@@ -4,7 +4,11 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const Account = () => {
-  const { logout } = useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("Account must be used within an AuthProvider");
+  }
+  const { logout } = context;
   const [isButtonLoading, setButtonLoading] = useState(false);
 
   // Logout user with AuthContext logout

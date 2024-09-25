@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { serverUrl, postData, fetchData } from "../utils/fetch";
-import { EntryResponse, LocationResponse } from "../types/types";
+import { EntryResponse, LocationResponse, Entry } from "../types/types";
 
 const ViewLocation = () => {
   const { locationId } = useParams();
@@ -16,7 +16,7 @@ const ViewLocation = () => {
   const [isLoadingMap, setLoadingMap] = useState(true);
   const [isLocation, setLocation] = useState(false);
   const [isEntry, setEntry] = useState(false);
-  const [entryList, setEntryList] = useState([{}]);
+  const [entryList, setEntryList] = useState<Entry[]>([]);
   const [coords, setCoords] = useState<{
     lat: null | number;
     lng: null | number;
@@ -83,7 +83,6 @@ const ViewLocation = () => {
     const { value } = event.target;
     const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
     setFormData({ message: capitalized });
-    console.log(formData.message);
   }
 
   function validateClientSideInput() {
@@ -196,13 +195,13 @@ const ViewLocation = () => {
                       </div>
                       <p className="text-xl text-center">
                         Your location is: &nbsp;
-                        {coords.lat > 0 ? (
+                        {(coords.lat as number) > 0 ? (
                           <span>{coords.lat}°N</span>
                         ) : (
                           <span>{coords.lat}°S</span>
                         )}
                         , &nbsp;
-                        {coords.lng > 0 ? (
+                        {(coords.lng as number) > 0 ? (
                           <span>{coords.lng}°E</span>
                         ) : (
                           <span>{coords.lng}°W</span>

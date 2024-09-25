@@ -5,7 +5,7 @@ import { AuthResponse, LoginResponse } from "../types/types";
 
 interface AuthContextType {
   user: string | null;
-  login: (username: string, password: string) => Promise<void>;
+  login: (formData: any) => Promise<{ response: LoginResponse }>;
   logout: () => void;
   loading: boolean | null;
 }
@@ -42,7 +42,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (response.isLoggedIn) {
       setUser(response.user);
       return { response };
-      //navigate("/account");
     }
 
     // Else, return response

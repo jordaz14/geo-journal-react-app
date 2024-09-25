@@ -3,7 +3,11 @@ import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
-  const { user } = useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("NavBar must be used within an AuthProvider");
+  }
+  const { user } = context;
 
   return (
     <nav className="w-full h-12 bg-white drop-shadow-sm flex align-middle font-lato font-bold text-md">

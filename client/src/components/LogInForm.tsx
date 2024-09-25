@@ -3,8 +3,12 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const LogInForm = ({ setUser }) => {
-  const { login } = useContext(AuthContext);
+const LogInForm = ({ setUser }: any) => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("LoginForm must be used within an AuthProvider");
+  }
+  const { login } = context;
   const [formNotify, setFormNotify] = useState("");
   const [isButtonLoading, setButtonLoading] = useState(false);
   const [isPasswordVisible, setShowPasswordVisible] = useState(false);

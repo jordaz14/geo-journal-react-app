@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { postData, serverUrl } from "../utils/fetch";
-import { RegisterResponse } from "../types/types";
+import { RegisterFormData, RegisterResponse } from "../types/types";
 
-const RegisterForm = ({ setUser }) => {
+const RegisterForm = ({ setUser }: any) => {
   const [FormNotify, setFormNotify] = useState("");
   const [isButtonLoading, setButtonLoading] = useState(false);
   const [isPasswordVisible, setShowPasswordVisible] = useState(false);
-  const [FormData, setFormData] = useState({
+  const [FormData, setFormData] = useState<RegisterFormData>({
     username: "",
     email: "",
     password: "",
@@ -55,7 +55,7 @@ const RegisterForm = ({ setUser }) => {
   function validateClientSideInput() {
     //Check all inputs fulfilled
     for (const prop in FormData) {
-      if (FormData[prop].length < 1) {
+      if (FormData[prop as keyof RegisterFormData].length < 1) {
         setFormNotify("Invalid username, email, or password");
         return false;
       }

@@ -9,7 +9,7 @@ import logo from "../assets/nearhere.png";
 const CreateLocation = () => {
   const [isLoading, setLoading] = useState(true);
   const [qrValue, setQRValue] = useState("");
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
 
   // CREATE INITIAL LOCATION ON LOAD
   useEffect(() => {
@@ -44,10 +44,10 @@ const CreateLocation = () => {
   // DOWNLOAD QR CODE FOR PRINTING
   function downloadQRCode() {
     // Reference QR Canvas element
-    const canvas = canvasRef.current.querySelector("canvas");
+    const canvas = canvasRef.current!.querySelector("canvas");
 
     // Convert canvas to image
-    const image = canvas.toDataURL("image/png");
+    const image = canvas!.toDataURL("image/png");
 
     // Create link, reference image to link, and click
     const link = document.createElement("a");

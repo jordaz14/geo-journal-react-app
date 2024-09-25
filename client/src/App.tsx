@@ -9,14 +9,12 @@ import { AuthContext } from "./context/AuthContext";
 import { useContext } from "react";
 
 const App = () => {
-  interface AuthContextType {
-    user: string | null;
-    login: (username: string, password: string) => Promise<void>;
-    logout: () => void;
-    loading: boolean;
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("App must be used within an AuthProvider");
   }
-
-  const { loading } = useContext(AuthContext) as AuthContextType;
+  const { loading } = context;
+  
   if (loading) return <div></div>;
 
   return (

@@ -7,24 +7,31 @@ import { MapContainer } from "react-leaflet";
 import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchData, serverUrl, clientUrl } from "../utils/fetch";
+import { UserLocationResponse, Location } from "../types/types";
 
 const SearchLocation = () => {
   const [coords, setCoords] = useState({ lat: 0, lng: 0 });
   const [isLocationLoading, setLocationLoading] = useState(true);
-  const [locationList, setLocationList] = useState([{}]);
-  const { user } = useContext(AuthContext);
+  const [locationList, setLocationList] = useState<Location[]>([]);
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("SearchLocation must be used within an AuthProvider");
+  }
+  const { user } = context;
 
   useEffect(() => {
     if (user) {
-      fetchData(`${serverUrl}/user-location`).then((response) => {
-        const reversedLocationList = response.reverse();
-        setLocationList(reversedLocationList);
-        setCoords({
-          lat: reversedLocationList[0].location_lat,
-          lng: reversedLocationList[0].location_lng,
-        });
-        setLocationLoading(false);
-      });
+      fetchData(`${serverUrl}/user-location`).then(
+        (response: UserLocationResponse) => {
+          const reversedLocationList: UserLocationResponse = response.reverse();
+          setLocationList(reversedLocationList);
+          setCoords({
+            lat: reversedLocationList[0].location_lat,
+            lng: reversedLocationList[0].location_lng,
+          });
+          setLocationLoading(false);
+        }
+      );
     }
   }, []);
 
@@ -97,7 +104,6 @@ const SearchLocation = () => {
                         <div className="bg-red-50 text-center rounded-md my-2 p-2 w-full">
                           <p>{location.ne_message}</p>
                         </div>
-                        <p>{location.activity}</p>
                         <p>+{location.total_entry_count - 1} Comments</p>
                         {location.owner_id ? (
                           <p className="mt-4">
