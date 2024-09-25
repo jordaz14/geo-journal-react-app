@@ -3,7 +3,7 @@ export const clientUrl = import.meta.env.PROD
   : "http://localhost:5173";
 
 export const serverUrl = import.meta.env.PROD
-  ? "https://nearhere-server.netlify.app"
+  ? "https://nearhere-server.onrender.com"
   : "http://localhost:5000";
 
 console.log(`Client URL: ${clientUrl}, Server URL: ${serverUrl}`);
