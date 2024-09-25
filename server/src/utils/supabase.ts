@@ -73,21 +73,17 @@ export const updateNewEntry = async (
   }
 };
 
-export const updateLocationDateEntryIdOnEntry = async (
-  locationTableId: number,
-  entryId: number
-) => {
+/* GET ID OF FIRST ENTRY TO CHECK IF NEW ENTRY = FIRST ENTRY*/
+export const getFirstEntryId = async (locationTableId: number) => {
   const { data, error } = await supabase
     .from("location_ids")
-    .update({
-      new_entry_id: entryId,
-    })
+    .select("first_entry_id")
     .eq("id", locationTableId);
 
   if (error) {
     console.error(error);
   } else {
-    console.log("Location Date on Entry Inserted");
+    return data;
   }
 };
 
