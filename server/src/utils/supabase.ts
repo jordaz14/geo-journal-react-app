@@ -20,14 +20,10 @@ export const insertLocationId = async (locationId: string) => {
   }
 };
 
-export const updateLocationCoords = async (
-  locationTableId: number,
-  coords: { lat: number | null; lng: number | null }
-) => {
-  const { data, error } = await supabase
-    .from("location_ids")
-    .update({ location_lat: coords.lat, location_lng: coords.lng })
-    .eq("id", locationTableId);
+export const getUserLocations = async (userId: number) => {
+  const { data, error } = await supabase.rpc("get_user_location_entries", {
+    p_user_id: userId,
+  });
 
   if (error) {
     console.error(error);
