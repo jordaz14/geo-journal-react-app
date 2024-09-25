@@ -30,6 +30,10 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors({ origin: clientUrl, credentials: true }));
 
+app.get("/", (req: Request, res: Response) => {
+  res.send({ message: "Server is running." });
+});
+
 app.get("/test", (req: Request, res: Response) => {
   res.send({ message: "Test Response" });
 });
@@ -162,7 +166,7 @@ app.post("/login", async (req: Request, res: Response) => {
     res.cookie("token", token),
       {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === "production",
         sameSite: "None",
         maxAge: 3600000,
       };

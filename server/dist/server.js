@@ -51,6 +51,9 @@ let clientUrl = "https://nearhere.netlify.app";
 app.use(cookieParser());
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({ origin: clientUrl, credentials: true }));
+app.get("/", (req, res) => {
+    res.send({ message: "Server is running." });
+});
 app.get("/test", (req, res) => {
     res.send({ message: "Test Response" });
 });
@@ -152,7 +155,7 @@ app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.cookie("token", token),
             {
                 httpOnly: true,
-                secure: true,
+                secure: process.env.NODE_ENV === "production",
                 sameSite: "None",
                 maxAge: 3600000,
             };
