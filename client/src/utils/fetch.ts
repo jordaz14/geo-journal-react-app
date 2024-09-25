@@ -1,5 +1,10 @@
-export const clientUrl = "http://localhost:5173";
-export const serverUrl = "http://localhost:5000";
+export const clientUrl = import.meta.env.PROD
+  ? "https://nearhere.netlify.app"
+  : "http://localhost:5173";
+
+export const serverUrl = import.meta.env.PROD
+  ? "https://nearhere-server.netlify.app"
+  : "http://localhost:5000";
 
 // POST DATA
 export async function postData(url: string, data: any = {}) {
