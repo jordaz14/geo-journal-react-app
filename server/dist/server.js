@@ -46,13 +46,7 @@ const jwt_1 = require("./utils/jwt");
 var cookieParser = require("cookie-parser");
 const app = (0, express_1.default)();
 dotenv.config();
-let clientUrl;
-if (process.env.NODE_ENV === "production") {
-    clientUrl = "https://nearhere.netlify.app";
-}
-else {
-    clientUrl = "http://localhost:5173";
-}
+let clientUrl = "https://nearhere.netlify.app";
 /* 3RD-PARTY MIDDLEWARE */
 app.use(cookieParser());
 app.use(express_1.default.json());
@@ -158,7 +152,7 @@ app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.cookie("token", token),
             {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
+                secure: true,
                 sameSite: "None",
                 maxAge: 3600000,
             };
