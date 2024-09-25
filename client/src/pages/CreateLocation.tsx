@@ -4,7 +4,7 @@ import { postData } from "../utils/fetch";
 import { QRCodeCanvas } from "qrcode.react";
 import { useEffect, useState, useRef } from "react";
 import { serverUrl, clientUrl } from "../utils/fetch";
-import icon from "../assets/pin.png";
+import logo from "../assets/nearhere.png";
 
 const CreateLocation = () => {
   const [isLoading, setLoading] = useState(true);
@@ -75,11 +75,11 @@ const CreateLocation = () => {
               value={qrValue}
               size={250}
               imageSettings={{
-                src: icon,
+                src: logo,
                 x: undefined,
                 y: undefined,
-                height: 60,
-                width: 60,
+                height: 50,
+                width: 50,
                 opacity: 1,
                 excavate: true,
               }}
