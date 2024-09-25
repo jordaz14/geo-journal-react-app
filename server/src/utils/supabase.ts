@@ -7,8 +7,9 @@ const SUPABASE_URL: string = process.env.SUPABASE_URL as string;
 const SUPABASE_KEY: string = process.env.SUPABASE_KEY as string;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+/* INSERT NEW LOCATION ID ON LOCATION CREATION */
 export const insertLocationId = async (locationId: string) => {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("location_ids")
     .insert({ location_id: locationId });
 
@@ -103,6 +104,7 @@ export const getEntryId = async (locationTableId: number, userId: number) => {
   }
 };
 
+/* GET LOCATION ID FOR ENTRIES FOREIGN KEY */
 export const getLocationId = async (locationId: string) => {
   const { data, error } = await supabase
     .from("location_ids")
@@ -135,7 +137,7 @@ export const insertUser = async (
   email: string,
   hashedPassword: string
 ) => {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("users")
     .insert({ username: username, email: email, password: hashedPassword });
 
@@ -146,7 +148,7 @@ export const insertUser = async (
   }
 };
 
-//
+/* GET USER DATA BASED ON ATTRIBUTE PARAMETER */
 export const getUser = async (
   userAttributeName: string,
   userAttributeValue: string
@@ -164,13 +166,12 @@ export const getUser = async (
 };
 
 /* INSERT ENTRY FOR USER WITH LOCATION ID & MESSAGE */
-// TO DO: Add location coords as well
 export const insertEntry = async (
   userId: number,
   locationId: string,
   message: string
 ) => {
-  const { data, error } = await supabase.from("entries").insert({
+  const { error } = await supabase.from("entries").insert({
     user_id: userId,
     location_id: locationId,
     message: message,
@@ -188,12 +189,12 @@ export const getEntry = async (locationTableId: number) => {
   const { data, error } = await supabase
     .from("entries")
     .select(
-      "created_at, user:users (username), message, location:location_ids (location_lat, location_lng)"
+      "created_at, user:users (username), message, location:location_ids!location_id (location_lat, location_lng)"
     )
     .eq("location_id", locationTableId);
 
   if (error) {
-    console.error();
+    console.error(error);
   } else {
     return data;
   }
