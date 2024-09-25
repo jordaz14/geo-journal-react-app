@@ -23,14 +23,12 @@ var cookieParser = require("cookie-parser");
 const app = express();
 dotenv.config();
 
-let clientUrl = 'https://nearhere.netlify.app'
-/*'
+let clientUrl;
 if (process.env.NODE_ENV === "production") {
   clientUrl = "https://nearhere.netlify.app";
 } else {
   clientUrl = "http://localhost:5173";
 }
-*/
 
 /* 3RD-PARTY MIDDLEWARE */
 app.use(cookieParser());
@@ -169,7 +167,7 @@ app.post("/login", async (req: Request, res: Response) => {
     res.cookie("token", token),
       {
         httpOnly: true,
-        secure: true, //process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === "production",
         sameSite: "None",
         maxAge: 3600000,
       };
