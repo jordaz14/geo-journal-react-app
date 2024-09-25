@@ -19,14 +19,14 @@ const NavBar = () => {
         {user ? (
           <Link
             to="/account"
-            className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md"
+            className="flex items-center justify-center bg-primary-red text-white py-2 px-4 rounded-md h-[75%] w-[90px]"
           >
             account
           </Link>
         ) : (
           <Link
             to="/session"
-            className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md h-[75%]"
+            className="flex items-center justify-center bg-primary-red text-white py-2 px-4 rounded-md h-[75%] w-[90px]"
           >
             log in
           </Link>
