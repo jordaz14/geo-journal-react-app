@@ -32,10 +32,10 @@ const SearchLocation = () => {
       <MainContainer>
         {user ? (
           <VerticalContainer>
-            <h1 className="text-4xl font-bold text-center">
+            <h1 className="text-2xl sm:text-4xl font-bold text-center">
               oh, the places you've been
             </h1>
-            <p className="text-xl text-center mt-2">
+            <p className="text-lg sm:text-xl text-center mt-2">
               see if any others have come along
             </p>
             <div className="w-full min-h-[200px] max-h-[300px] p-2 bg-white my-4 flex flex-col justify-center rounded-md drop-shadow-md hover:drop-shadow-2xl transition duration-500 linear relative">
@@ -82,8 +82,10 @@ const SearchLocation = () => {
           </VerticalContainer>
         ) : (
           <>
-            <h1 className="text-8xl font-bold text-primary-red">hi there</h1>
-            <p className="text-4xl font-bold text-center">
+            <h1 className="text-6xl sm:text-8xl font-bold text-primary-red">
+              hi there
+            </h1>
+            <p className="text-2xl sm:text-4xl font-bold text-center">
               to access all locations you've visited,<br></br> please
             </p>
             <Link
