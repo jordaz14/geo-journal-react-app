@@ -202,9 +202,9 @@ const ViewLocation = () => {
                         )}
                         , &nbsp;
                         {coords.lng > 0 ? (
-                          <span>{coords.lng}°W</span>
-                        ) : (
                           <span>{coords.lng}°E</span>
+                        ) : (
+                          <span>{coords.lng}°W</span>
                         )}
                       </p>
                     </>
