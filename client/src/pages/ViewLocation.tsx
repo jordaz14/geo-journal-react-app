@@ -133,7 +133,7 @@ const ViewLocation = () => {
               {isEntry ? (
                 <>
                   <div key={0} className="mb-2 w-full">
-                    <div className="w-full bg-primary-red p-4 text-xl text-white font-bold text-center rounded-md drop-shadow-sm hover:drop-shadow-2xl transition duration-500 linear">
+                    <div className="w-full bg-primary-red p-2 sm:p-4 text-l sm:text-xl text-white font-bold text-center rounded-md drop-shadow-sm hover:drop-shadow-2xl transition duration-500 linear">
                       {entryList[0].message}
                     </div>
                   </div>
@@ -247,13 +247,15 @@ const ViewLocation = () => {
             </VerticalContainer>
           ) : (
             /* If location not found*/ <>
-              <h1 className="text-8xl font-bold text-primary-red">uh oh</h1>
-              <p className="text-4xl font-bold text-center">
+              <h1 className="text-4xl sm:text-8xl font-bold text-primary-red">
+                uh oh
+              </h1>
+              <p className="text-xl sm:text-4xl font-bold text-center">
                 it seems like you got lost, <br></br> let's get you back
               </p>
               <Link
                 to="/"
-                className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm mt-4"
+                className="flex items-center bg-primary-red text-white py-2 px-4 rounded-md shadow-sm mt-4 font-bold"
               >
                 home
               </Link>
