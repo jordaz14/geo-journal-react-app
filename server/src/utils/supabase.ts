@@ -89,13 +89,15 @@ export const updateLocationDateEntryIdOnEntry = async (
   }
 };
 
+/* GET ENTRY ID FOR RECENT ENTRY TO UPDATE LOCATION FOREIGN KEYS */
 export const getEntryId = async (locationTableId: number, userId: number) => {
   const { data, error } = await supabase
     .from("entries")
-    .select("*")
+    .select("entry_id")
     .order("created_at", { ascending: false })
+    .eq("location_id", locationTableId)
     .eq("user_id", userId)
-    .eq("location_id", locationTableId);
+    .limit(1);
 
   if (error) {
     console.error(error);
