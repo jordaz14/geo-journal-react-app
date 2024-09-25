@@ -28,7 +28,7 @@ export const getUserLocations = async (userId: number) => {
   if (error) {
     console.error(error);
   } else {
-    console.log("Location Coords Inserted");
+    return data;
   }
 };
 
