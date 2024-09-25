@@ -26,6 +26,12 @@ const SearchLocation = () => {
     }
   }, []);
 
+  function convertTime(time: string) {
+    const date = new Date(time);
+    const localTime = date.toLocaleDateString();
+    return localTime;
+  }
+
   return (
     <>
       <NavBar></NavBar>
