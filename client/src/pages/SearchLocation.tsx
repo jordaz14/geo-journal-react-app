@@ -6,10 +6,12 @@ import { AuthContext } from "../context/AuthContext";
 import { MapContainer } from "react-leaflet";
 import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchData, serverUrl } from "../utils/fetch";
+import { fetchData, serverUrl, clientUrl } from "../utils/fetch";
 
 const SearchLocation = () => {
-  const [coords, setCoords] = useState({ lat: 40.6875646, lng: -73.9940103 });
+  const [coords, setCoords] = useState({ lat: 0, lng: 0 });
+  const [isLocationLoading, setLocationLoading] = useState(true);
+  const [locationList, setLocationList] = useState([{}]);
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
