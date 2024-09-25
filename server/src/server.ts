@@ -6,14 +6,15 @@ import * as dotenv from "dotenv";
 import {
   getEntry,
   getLocationId,
-  getOneEntry,
   getUser,
   insertEntry,
   insertLocationId,
   insertUser,
-  getUniqueLocations,
-  updateLocationCoords,
-  updateLocationOwner,
+  getUserLocations,
+  getEntryId,
+  getFirstEntryId,
+  updateFirstEntry,
+  updateNewEntry,
 } from "./utils/supabase";
 import { authenticateJWT } from "./middleware/authMiddleware";
 import { generateToken, JWT_SECRET } from "./utils/jwt";
