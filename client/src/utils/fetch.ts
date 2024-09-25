@@ -6,6 +6,8 @@ export const serverUrl = import.meta.env.PROD
   ? "https://nearhere-server.netlify.app"
   : "http://localhost:5000";
 
+console.log(`Client URL: ${clientUrl}, Server URL: ${serverUrl}`);
+
 // POST DATA
 export async function postData(url: string, data: any = {}) {
   try {
