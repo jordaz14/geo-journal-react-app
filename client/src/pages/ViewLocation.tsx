@@ -22,7 +22,6 @@ const ViewLocation = () => {
     lng: null | number;
   }>({ lat: null, lng: null });
   const [formData, setFormData] = useState({ message: "" });
-  const [date, setDate] = useState(new Date());
 
   // HANDLE LOCATION RENDERING ON INITIAL LOAD
   useEffect(() => {
@@ -59,11 +58,7 @@ const ViewLocation = () => {
       return;
     }
 
-    const date = new Date();
-    setDate(date);
-
     postData(`${serverUrl}/entry/${locationId}`, {
-      date,
       coords,
       formData,
     }).then((entryResponse: EntryResponse) => {
