@@ -25,7 +25,7 @@ dotenv.config();
 
 let clientUrl;
 if (process.env.CODE_ENV === "production") {
-  clientUrl = "https://nearhere.netlify.app";
+  clientUrl = "https://nearhere.onrender.com";
 } else {
   clientUrl = "http://localhost:5173";
 }
@@ -167,8 +167,7 @@ app.post("/login", async (req: Request, res: Response) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.CODE_ENV === "production",
-      domain: "nearhere-server.onrender.com",
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: 3600000,
     });
 
