@@ -60,9 +60,6 @@ app.use((0, cors_1.default)({ origin: clientUrl, credentials: true }));
 app.get("/", (req, res) => {
     res.send({ message: "Server is running." });
 });
-app.get("/test", (req, res) => {
-    res.send({ message: "Test Response" });
-});
 /* HANDLE LOCATION CREATION */
 app.post("/create-location", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Receive UUID from client
@@ -89,11 +86,12 @@ app.get("/location/:locationId", (req, res) => __awaiter(void 0, void 0, void 0,
 }));
 /* RETURN LOCATIONS PERTAINING TO SPECIFIC USER */
 app.get("/user-location", authMiddleware_1.authenticateJWT, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.user);
-    const userDataByEmail = (yield (0, supabase_1.getUser)("email", req.user.email));
-    const userId = userDataByEmail[0].id;
-    const userLocationData = (yield (0, supabase_1.getUserLocations)(userId));
-    res.send(userLocationData);
+    if (req.user) {
+        const userDataByEmail = (yield (0, supabase_1.getUser)("email", req.user.email));
+        const userId = userDataByEmail[0].id;
+        const userLocationData = (yield (0, supabase_1.getUserLocations)(userId));
+        res.send(userLocationData);
+    }
 }));
 /* HANDLE USER REGISTRATION */
 app.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

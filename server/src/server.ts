@@ -39,10 +39,6 @@ app.get("/", (req: Request, res: Response) => {
   res.send({ message: "Server is running." });
 });
 
-app.get("/test", (req: Request, res: Response) => {
-  res.send({ message: "Test Response" });
-});
-
 /* HANDLE LOCATION CREATION */
 app.post("/create-location", async (req: Request, res: Response) => {
   // Receive UUID from client
@@ -80,14 +76,14 @@ app.get(
   "/user-location",
   authenticateJWT,
   async (req: Request, res: Response) => {
-    console.log(req.user);
+    if (req.user) {
+      const userDataByEmail = (await getUser("email", req.user.email)) as any[];
+      const userId = userDataByEmail[0].id;
 
-    const userDataByEmail = (await getUser("email", req.user.email)) as any[];
-    const userId = userDataByEmail[0].id;
+      const userLocationData = (await getUserLocations(userId)) as any[];
 
-    const userLocationData = (await getUserLocations(userId)) as any[];
-
-    res.send(userLocationData);
+      res.send(userLocationData);
+    }
   }
 );
 
