@@ -167,7 +167,8 @@ app.post("/login", async (req: Request, res: Response) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.CODE_ENV === "production",
-      sameSite: "none",
+      domain: "nearhere-server.onrender.com",
+      sameSite: "lax",
       maxAge: 3600000,
     });
 
