@@ -159,7 +159,7 @@ app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.cookie("token", token),
             {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
+                secure: process.env.CODE_ENV === "production",
                 sameSite: "None",
                 maxAge: 3600000,
             };
