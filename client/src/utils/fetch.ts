@@ -1,5 +1,5 @@
 export const clientUrl = import.meta.env.PROD
-  ? "https://nearhere.netlify.app/"
+  ? "https://nearhere.netlify.app"
   : "http://localhost:5173";
 
 export const serverUrl = import.meta.env.PROD
