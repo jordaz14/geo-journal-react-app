@@ -156,13 +156,12 @@ app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     if (isPasswordMatch) {
         const token = (0, jwt_1.generateToken)(email);
         // Create http cookie with 1hr expiration
-        res.cookie("token", token),
-            {
-                httpOnly: true,
-                secure: process.env.CODE_ENV === "production",
-                sameSite: "None",
-                maxAge: 3600000,
-            };
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.CODE_ENV === "production",
+            sameSite: "none",
+            maxAge: 3600000,
+        });
         // Decode token to send user email, init time, and exp time
         const decoded = jsonwebtoken_1.default.verify(token, jwt_1.JWT_SECRET);
         return res.send({

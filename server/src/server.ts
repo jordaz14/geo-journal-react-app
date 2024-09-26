@@ -164,13 +164,12 @@ app.post("/login", async (req: Request, res: Response) => {
     const token = generateToken(email);
 
     // Create http cookie with 1hr expiration
-    res.cookie("token", token),
-      {
-        httpOnly: true,
-        secure: process.env.CODE_ENV === "production",
-        sameSite: "None",
-        maxAge: 3600000,
-      };
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.CODE_ENV === "production",
+      sameSite: "none",
+      maxAge: 3600000,
+    });
 
     // Decode token to send user email, init time, and exp time
     const decoded = jwt.verify(token, JWT_SECRET);
