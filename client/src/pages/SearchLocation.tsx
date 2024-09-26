@@ -128,8 +128,8 @@ const SearchLocation = () => {
             <h1 className="text-6xl sm:text-8xl font-bold text-primary-red">
               hi there
             </h1>
-            <p className="text-2xl sm:text-4xl font-bold text-center">
-              to access all locations you've visited,<br></br> please
+            <p className="text-xl sm:text-4xl font-bold text-center">
+              to access all locations you've visited, please
             </p>
             <Link
               to="/session"
