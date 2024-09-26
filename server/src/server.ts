@@ -23,7 +23,12 @@ var cookieParser = require("cookie-parser");
 const app = express();
 dotenv.config();
 
-let clientUrl = "https://nearhere.netlify.app";
+let clientUrl;
+if (process.env.CODE_ENV === "production") {
+  clientUrl = "https://nearhere.netlify.app";
+} else {
+  clientUrl = "http://localhost:5173";
+}
 
 /* 3RD-PARTY MIDDLEWARE */
 app.use(cookieParser());
