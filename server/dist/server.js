@@ -161,7 +161,6 @@ app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             secure: process.env.CODE_ENV === "production",
             sameSite: "none",
             maxAge: 3600000,
-            domain: ".onrender.com"
         });
         // Decode token to send user email, init time, and exp time
         const decoded = jsonwebtoken_1.default.verify(token, jwt_1.JWT_SECRET);

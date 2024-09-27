@@ -169,7 +169,6 @@ app.post("/login", async (req: Request, res: Response) => {
       secure: process.env.CODE_ENV === "production",
       sameSite: "none",
       maxAge: 3600000,
-      domain: ".onrender.com"
     });
 
     // Decode token to send user email, init time, and exp time
