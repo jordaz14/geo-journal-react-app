@@ -5,7 +5,7 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerIconRetina from "leaflet/dist/images/marker-icon-2x.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
-const MapComponent = ({ coords }: { coords: { lat: number; lng: number } }) => {
+const MapComponent = ({ coords }: { coords: { lat: number | null; lng: number | null} }) => {
   const map = useMap();
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const MapComponent = ({ coords }: { coords: { lat: number; lng: number } }) => {
         attribution='&copy; <a href="https://carto.com/">Carto</a>'
       />
       <Marker
-        position={[coords.lat, coords.lng]}
+        position={[coords.lat as number, coords.lng as number]}
         icon={
           new Icon({
             iconUrl: markerIcon,

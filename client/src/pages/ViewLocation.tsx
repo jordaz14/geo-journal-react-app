@@ -4,7 +4,8 @@ import VerticalContainer from "../components/VerticalContainer";
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer } from "react-leaflet";
+import MapComponent from "../components/MapComponent";
 import "leaflet/dist/leaflet.css";
 import { serverUrl, postData, fetchData } from "../utils/fetch";
 import { EntryResponse, LocationResponse, Entry } from "../types/types";
@@ -181,16 +182,7 @@ const ViewLocation = () => {
                           zoom={13}
                           className="w-full h-full bg-white "
                         >
-                          <TileLayer
-                            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-                            attribution='&copy; <a href="https://carto.com/">Carto</a>'
-                          />
-                          <Marker
-                            position={[
-                              coords.lat as number,
-                              coords.lng as number,
-                            ]}
-                          />
+                          <MapComponent coords={coords}></MapComponent>
                         </MapContainer>
                       </div>
                       <p className="text-xl text-center">
