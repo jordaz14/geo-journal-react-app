@@ -25,7 +25,7 @@ dotenv.config();
 
 let clientUrl;
 if (process.env.CODE_ENV === "production") {
-  clientUrl = "https://nearhere.onrender.com";
+  clientUrl = "https://nearhere.netlify.app";
 } else {
   clientUrl = "http://localhost:5173";
 }
