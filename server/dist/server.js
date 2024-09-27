@@ -48,7 +48,7 @@ const app = (0, express_1.default)();
 dotenv.config();
 let clientUrl;
 if (process.env.CODE_ENV === "production") {
-    clientUrl = "https://www.nearhere.me";
+    clientUrl = "https://nearhere.onrender.com";
 }
 else {
     clientUrl = "http://localhost:5173";
@@ -161,7 +161,7 @@ app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             secure: process.env.CODE_ENV === "production",
             sameSite: "none",
             maxAge: 3600000,
-            domain: ".nearhere.me"
+            domain: ".onrender.com"
         });
         // Decode token to send user email, init time, and exp time
         const decoded = jsonwebtoken_1.default.verify(token, jwt_1.JWT_SECRET);

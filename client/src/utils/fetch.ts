@@ -1,9 +1,9 @@
 export const clientUrl = import.meta.env.PROD
-  ? "https://www.nearhere.me"
+  ? "https://nearhere.onrender.com"
   : "http://localhost:5173";
 
 export const serverUrl = import.meta.env.PROD
-  ? "https://api.nearhere.me"
+  ? "https://nearhere-server.onrender.com"
   : "http://localhost:5000";
 
 console.log(`Client URL: ${clientUrl}, Server URL: ${serverUrl}`);
