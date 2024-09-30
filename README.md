@@ -122,6 +122,12 @@ END;
 $$ LANGUAGE plpgsql;
 
 ```
+**7. Open separate terminals for your `./client` and `./server` directories and run the follow command in each:**
+```
+npm run dev
+```
+
+**8. Ready to Use!**
 
 ## How to Use
 
