@@ -39,6 +39,90 @@ Near Here is a geo-based web app where you can create and share QR code-powered 
 
 ## Installation
 
+As a reminder, this app is available to use at [nearhere.me](https://nearhere.me/).
+
+Before installing, you will need to create an account with Supabase and deploy your own DB [here](https://supabase.com/dashboard/projects). Copy the connection details provided in the dashboard section of Supabase DB to your clipboard, as these will be used to establish your own DB for the project.
+
+Below are the steps to install and build upon this app:
+
+**1. Clone the respository to your IDE:**
+```
+git clone https://github.com/jordaz14/geo-journal-react-app.git
+```
+**2. Navigate to the project directory:**
+```
+cd geo-journal-react-app.git
+```
+**3. Install npm in both the `./client` and `./server` directories to get dependencies:**
+```
+cd ./client && npm install && cd ../server && npm install
+```
+**4. Create a `.env` file in the `./server` directory in the following format to configure your project:**
+```
+SUPABASE_URL="<supabase_url>"
+SUPABASE_ANON_KEY="<supabase_anon_key>"
+JWT_SECRET = "<your_jwt_secret_key>"
+NODE_ENV = 'development'
+```
+**5. In Supabase, copy the database schema below to create your own tables:**
+
+<img src="https://github.com/user-attachments/assets/e7ae0e86-72dc-400a-aac5-e9efbe1654ea" alt="Image description" width="600" height="400">
+
+
+**6. Additonally, go to Supabase's query editor and create the custom query below:**
+```
+DROP FUNCTION IF EXISTS get_user_location_entries(p_user_id BIGINT);
+
+CREATE OR REPLACE FUNCTION get_user_location_entries(p_user_id BIGINT)
+RETURNS TABLE (
+  user_id BIGINT,             
+  location_id BIGINT,          
+  location_param TEXT,         
+  location_lat REAL,         
+  location_lng REAL,        
+  owner_id INT,             
+  fe_entry_id BIGINT,       
+  ne_entry_id BIGINT,          
+  fe_message TEXT,    
+  fe_message_date TIMESTAMPTZ,         
+  ne_message TEXT,             
+  total_entry_count BIGINT      
+) AS $$
+BEGIN
+  RETURN QUERY 
+    SELECT 
+      DISTINCT ON (e.location_id) 
+      e.user_id, 
+      e.location_id, 
+      l.location_id::TEXT AS location_param,
+      l.location_lat, 
+      l.location_lng, 
+      l.owner_id, 
+      l.first_entry_id AS fe_entry_id, 
+      l.new_entry_id AS ne_entry_id, 
+      fe.message AS fe_message, 
+      fe.created_at AS fe_message_date,
+      ne.message AS ne_message,
+      (SELECT COUNT(*) 
+       FROM entries e2 
+       WHERE e2.location_id = e.location_id) AS total_entry_count
+    FROM 
+      entries e
+    JOIN 
+      location_ids l ON e.location_id = l.id
+    JOIN 
+      entries fe ON l.first_entry_id = fe.entry_id
+    JOIN 
+      entries ne ON l.new_entry_id = ne.entry_id
+    WHERE 
+      e.user_id = p_user_id
+    ORDER BY 
+      e.location_id, e.created_at ASC;
+END;
+$$ LANGUAGE plpgsql;
+
+```
+
 ## How to Use
 
 ## Codebase Overview
