@@ -17,7 +17,7 @@ Near Here is a geo-based web app where you can create and share QR code-powered 
 - [Installation](#installation)
 - [How to Use](#how-to-use)
 - [Codebase Overview](#codebase-overview)
-- [Key Features](#key-features)
+- [Technical Features](#technical-features)
 - [Future Improvements](#future-improvements)
 - [License](#license)
 
@@ -43,9 +43,28 @@ Near Here is a geo-based web app where you can create and share QR code-powered 
 
 ## Codebase Overview
 
-## Key Features
+- **CLIENT**
+  - **src/components**
+    - [content.ts](./client/src/content.ts) - dynamically change body content for different segments of request-response cycle
+  - **src/context**
+  - **src/pages**
+  - **src/pages** 
+- **SERVER**
+  - **src**
+    - [app.ts](./server/src/app.ts) - measures network times (e.g. DNS, TCP, and TLS), response times, and database execution time
+  - **types**
+    - [express.d.ts](./server/types/express.d.ts) - modifies type of express request to include props appended via middleware
+
+## Technical Features
 
 ## Future Improvements
+- [ ] Verify user's email on account registration
+- [ ] Add account settings to update email and password
+- [ ] Allow user to delete messages and locations
+- [ ] Incorporate refresh token to keep users logged in
+- [ ] Improve form input validation to filter inappropriate content or introduce content moderation
+- [ ] Render default content if user accesses `search` page with no created locations
+
 
 ## License
 This project is licensed under the GNU General Public License (GPL) - see the [LICENSE](./LICENSE) file for details.
