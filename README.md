@@ -158,29 +158,29 @@ https://github.com/user-attachments/assets/9a3b301e-c741-4366-a422-f09de429a43a
 ## Codebase Overview
 
 - **CLIENT**
-  - [main.tsx](./client/main.tsx) - 
-  - [App.tsx](./client/App.tsx) - 
+  - [main.tsx](./client/main.tsx) - app.tsx wrapped in AuthProvider and Router
+  - [App.tsx](./client/App.tsx) - define routes and only render app on auth validation
   - **src/components**
-    - [LoginForm.tsx](./client/src/components/LogInForm.tsx) - 
-    - [MapContainer.tsx](./client/src/components/MainContainer.tsx) -
-    - [VerticalContainer.tsx](./client/src/components/VerticalContainer.tsx) -
-    - [MapComponent.tsx](./client/src/components/MapComponent.tsx)
-    - [NavBar.tsx](./client/src/components/NavBar.tsx) - 
-    - [RegisterForm.tsx](./client/src/components/RegisterForm.tsx) - 
+    - [LoginForm.tsx](./client/src/components/LogInForm.tsx) - log in an existing user
+    - [MainContainer.tsx](./client/src/components/MainContainer.tsx) - animate slow fade-in of body content 
+    - [VerticalContainer.tsx](./client/src/components/VerticalContainer.tsx) - fit content to vertical column
+    - [MapComponent.tsx](./client/src/components/MapComponent.tsx) - update map view on coordinate change
+    - [NavBar.tsx](./client/src/components/NavBar.tsx) - navigate user through home, locations, log in
+    - [RegisterForm.tsx](./client/src/components/RegisterForm.tsx) - register a new user
   - **src/context**
-    - [AuthContext.tsx](./client/src/context/AuthContext.tsx) -
+    - [AuthContext.tsx](./client/src/context/AuthContext.tsx) - creates react context with auth status and login/logout functionality
   - **src/types**
-    - [types.ts](./client/src/types/types.ts) -
+    - [types.ts](./client/src/types/types.ts) - define types of server responses
   - **src/utils**
-    - [fetch.ts](./client/src/utils/fetch.ts) -
+    - [fetch.ts](./client/src/utils/fetch.ts) - declare client and server urls, abstract post and get functions
 - **SERVER**
   - **src**
-    - [server.ts](./server/src/server.ts) -
+    - [server.ts](./server/src/server.ts) - handle user registration/login, location creation, and entry fetching
     - **middleware**
-      - [authMiddleware.ts](./server/src/middleware/authMiddleware.ts) - 
+      - [authMiddleware.ts](./server/src/middleware/authMiddleware.ts) - get token from http cookie and validate
     - **utils**
-      - [jwt.ts](./server/src/utils/jwt.ts) -
-      - [supabase.ts](./server/src/utils/supabase.ts) -
+      - [jwt.ts](./server/src/utils/jwt.ts) - generate jwt token with user email
+      - [supabase.ts](./server/src/utils/supabase.ts) - create supabase client, abstract queries into functions
 
 ## Technical Features
 
