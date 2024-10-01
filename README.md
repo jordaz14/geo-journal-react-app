@@ -68,7 +68,6 @@ NODE_ENV = 'development'
 
 <img src="https://github.com/user-attachments/assets/e7ae0e86-72dc-400a-aac5-e9efbe1654ea" alt="Image description" width="600" height="400">
 
-
 **6. Additonally, go to Supabase's query editor and create the custom query below:**
 ```
 DROP FUNCTION IF EXISTS get_user_location_entries(p_user_id BIGINT);
@@ -131,19 +130,50 @@ npm run dev
 
 ## How to Use
 
+**Create a Location**
+
+https://github.com/user-attachments/assets/da59d82e-9c70-4098-9ee5-5fd3187dc913
+
+**Visit a Location**
+
+https://github.com/user-attachments/assets/55c6e6d9-9ef3-4f7c-81a4-4f448d12712d
+
+**Create an Entry**
+
+https://github.com/user-attachments/assets/fc78b6fc-7391-4b81-8942-fff364724462
+
+**Register an Account**
+
+**Log in to Account**
+
+**Search Locations**
+
 ## Codebase Overview
 
 - **CLIENT**
+  - [main.tsx](./client/main.tsx) - 
+  - [App.tsx](./client/App.tsx) - 
   - **src/components**
-    - [content.ts](./client/src/content.ts) - dynamically change body content for different segments of request-response cycle
+    - [LoginForm.tsx](./client/src/components/LogInForm.tsx) - 
+    - [MapContainer.tsx](./client/src/components/MainContainer.tsx) -
+    - [VerticalContainer.tsx](./client/src/components/VerticalContainer.tsx) -
+    - [MapComponent.tsx](./client/src/components/MapComponent.tsx)
+    - [NavBar.tsx](./client/src/components/NavBar.tsx) - 
+    - [RegisterForm.tsx](./client/src/components/RegisterForm.tsx) - 
   - **src/context**
-  - **src/pages**
-  - **src/pages** 
+    - [AuthContext.tsx](./client/src/context/AuthContext.tsx) -
+  - **src/types**
+    - [types.ts](./client/src/types/types.ts) -
+  - **src/utils**
+    - [fetch.ts](./client/src/utils/fetch.ts) -
 - **SERVER**
   - **src**
-    - [app.ts](./server/src/app.ts) - measures network times (e.g. DNS, TCP, and TLS), response times, and database execution time
-  - **types**
-    - [express.d.ts](./server/types/express.d.ts) - modifies type of express request to include props appended via middleware
+    - [server.ts](./server/src/server.ts) -
+    - **middleware**
+      - [authMiddleware.ts](./server/src/middleware/authMiddleware.ts) - 
+    - **utils**
+      - [jwt.ts](./server/src/utils/jwt.ts) -
+      - [supabase.ts](./server/src/utils/supabase.ts) -
 
 ## Technical Features
 
