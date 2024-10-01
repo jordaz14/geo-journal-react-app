@@ -24,18 +24,19 @@ Near Here is a geo-based web app where you can create and share QR code-powered 
 ## Core Technologies
 
 - **Frontend**
-  - TypeScript
-  - React
-  - Tailwind CSS
+  - TypeScript - _add static typing to JavaScript, define types for network requests/responses_
+  - React - _create UI components and simplify complexity via frontend framework_
+  - Tailwind CSS - _write CSS in-line of React Components with utility classes_
 - **Backend**
-  - Node.js
-  - Express.js
+  - Node.js - _runtime environment which enables JavaScript on server side_
+  - Express.js - _create endpoints to handle location creation, user authentication, and recording entries_
 - **Database**
-  - Supabase
-  - PostgreSQL
-  - SQL
+  - Supabase - _host PostgreSQL database on Supabase's free plan_
+  - PostgreSQL - _RDBMS which supports SQL for querying data_
+  - SQL - _query location, entry, and user data_
 - **Deployment**
-  - Render
+  - Render - _deploy frontend and backen, backend hosted with Render's starter plan_
+  - Cloudflare Registrar - _register [nearhere.me](https://nearhere.me/) domain name_
 
 ## Installation
 
@@ -144,9 +145,15 @@ https://github.com/user-attachments/assets/fc78b6fc-7391-4b81-8942-fff364724462
 
 **Register an Account**
 
+https://github.com/user-attachments/assets/bf79110b-8150-4b12-a5fc-de481d768b66
+
 **Log in to Account**
 
+https://github.com/user-attachments/assets/3ab5b3e1-7294-4045-97fa-848b8f48badf
+
 **Search Locations**
+
+https://github.com/user-attachments/assets/9a3b301e-c741-4366-a422-f09de429a43a
 
 ## Codebase Overview
 
@@ -176,6 +183,8 @@ https://github.com/user-attachments/assets/fc78b6fc-7391-4b81-8942-fff364724462
       - [supabase.ts](./server/src/utils/supabase.ts) -
 
 ## Technical Features
+
+- **Dynamic Routing of Locations**
 
 ## Future Improvements
 - [ ] Verify user's email on account registration
