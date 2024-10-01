@@ -184,7 +184,12 @@ https://github.com/user-attachments/assets/9a3b301e-c741-4366-a422-f09de429a43a
 
 ## Technical Features
 
-- **Dynamic Routing of Locations**
+- **React Functional Component Architecture**
+- **JWT-based Authentication Transmitted via HTTP Cookies**
+- **Global State Management of Auth Status with React's Context API**
+- **Dynamic Routing of Locations with React Router**
+- **Light UI Animations with React Framer**
+- **Client and Server-side Form Validation**
 
 ## Future Improvements
 - [ ] Verify user's email on account registration
